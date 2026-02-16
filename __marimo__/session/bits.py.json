@@ -1,0 +1,125 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "8d27f257ec697bd4f81d3eaa68d0097b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "syya",
+      "code_hash": "2bd460f728817ab5f07ca41fc3fb865b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "oftn",
+      "code_hash": "27afc3237384cd96fa3af5b7b09b2e32",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "EWgV",
+      "code_hash": "4b5e23fa4248216621491a239babfb8f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "cjmL",
+      "code_hash": "dd2dc3e17e17c1fb3c4407e15c211bd1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "[\"text/plain:[[ 71 178  14  59 120  98 120 107]\\n [  1 124 115 141  36 243 165 226]\\n [ 73  66 222  80   6  28 137 118]\\n [ 29 141 182 187 201 107 130  51]]\", \"text/plain:[12 15 19 17 12 17 13 18]\"]"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qoPw",
+      "code_hash": "f20dac3bd1634ffe56ff24aaa5321c0f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DDPi",
+      "code_hash": "c30ac7d18c1f470a66eca9372dc88c51",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "[\"text/plain:149\", \"text/plain:4\"]"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "rTuj",
+      "code_hash": "49580c01db168a9050a710ae5acaf899",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "OLWY",
+      "code_hash": "f0f3056e1362b8f8e5a1fdc110400925",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>bits([[ 71, 178,  14,  59, 120,  98, 120, 107],\n      [  1, 124, 115, 141,  36, 243, 165, 226],\n      [ 73,  66, 222,  80,   6,  28, 137, 118],\n      [ 29, 141, 182, 187, 201, 107, 130,  51]], dtype=uint8)</pre>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
