@@ -1,0 +1,59 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "aVfK",
+      "code_hash": "cb1fdacc9c4ed6a540c87a9e8ddb0185",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "69bd5cb874fb86696fa8ec34ff38983d",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "module 'bits' has no attribute 'one_of_two_bytes_OT'",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/zc/949rpc9d6ys1c72rbsqyx3vr0000gn/T/marimo_4332/__marimo__cell_vblA_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">OT_cls</span> <span class=\"o\">=</span> <span class=\"n\">bits</span><span class=\"o\">.</span><span class=\"n\">one_of_two_bytes_OT</span><span class=\"p\">()</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^</span>\n<span class=\"gr\">AttributeError</span>: <span class=\"n\">module &#39;bits&#39; has no attribute &#39;one_of_two_bytes_OT&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "29a619f67aaa1df0e1b121fb80a62f10",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "84eda057449d79264818c23264bdd022",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "b45944716959897cdd768991489254d9",
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

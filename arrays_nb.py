@@ -42,21 +42,21 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             if obj is None: return
             self.n = getattr(obj, 'n', None)
             self.dtype = np.uint8
-        
- 
+
+
         def __str__(self):
             return np.array_str(self)
-    
+
         def __repr__(self):
             return np.array_repr(self)     #[:-1] + ', p=' + str(self.p) + ')'
-    
+
 
         def unpack(self):
             return np.unpackbits(self)
 
         def lift(self):
             return self.view(np.ndarray)
-    
+
         def bit_counts(self):
             if np.ndim(self) > 0:
                 data = np.vectorize(lambda x: int(x).bit_count() , otypes=[np.uint8])(self.lift())
@@ -68,14 +68,14 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             if np.issubdtype(self.dtype, np.integer):
                 return np.add.reduce(data)
             return np.unpackbits(self).sum()
-    
+
         def bit_count(self):
             res = self.bit_counts()
             if np.ndim(res) == 0:
                 return res
             else:
                 return sum(res)
-    
+
 
         def byte_round(self):
             data = self.unpack().reshape((-1,8)).T
@@ -91,13 +91,13 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
                 else:
                     byt.append(choice([_0 , _1]))
             return np.packbits(byt)
-        
-    
-    
+
+
+
         def __eq__(self, other):
     #        return np.array_equal(self, other)
             return np.array_equiv(self, other)
-    
+
         def tobytes(self):
             return self.lift().tobytes().strip(b'\x00')
 
@@ -105,12 +105,12 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             hash = shake_256(self.tobytes())
             return hash.digest(tsize)
 
-    
+
         def add(self, other):
             if np.ndim(self) > 0:
                 return np.bitwise_xor.__call__(self,other).view(bits)
             return np.bitwise_xor(self,other)
-    
+
         def __add__(self,other):
             return self.add(other)
 
@@ -118,7 +118,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             if np.ndim(self) > 0:
                 return np.bitwise_and.__call__(self,other).view(bits)
             return np.bitwise_and(self, other)
-    
+
         def __mul__(self,other):
             return self.mul(other)
 
@@ -132,21 +132,21 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
 
         def as_tag(self):
             return bits(np.repeat(self, tsize // self.size))
-    
+
         def join(self,*args):
             return np.concatenate((bits(args),self))
-    
+
         def append(self,other):
             return bits(np.concatenate((self,other)))
-    
+
         def mask(self,other):
-        
+
             assert isinstance(other, Iterable) and len(other) > 0, f"2nd argument must be a non-empty Iterable"
             msk = self.unpack()
             if isinstance(other,np.ndarray) and other.ndim == 1:
                 res  = (self * other).bit_count() % 2
                 return sign(res)
-        
+
             return sum([msk[j]*other[j] for j in range(len(msk))])
 
         def maskB(self, other):
@@ -157,8 +157,8 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             if isinstance(other, Iterable) and len(other) > 0:
                 return sum([bits([s]) * u  for (s,u) in zip(mask,other)])
             raise ValueError(f"arguments of improper kind")
-    
-    
+
+
         def bissect(self):
             l = self.size // 2
             return (self[:l], self[l:])
@@ -199,12 +199,12 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             if not isinstance(seed, bits):
                 seed = bits(seed)
             self.rng = np.random.default_rng(seed)
-        
+
 
 
         def bernoulli(self, l=16, eps=eps):
             return bits(np.packbits([1 if self.rng.random() < eps else 0 for _ in range(l * 8)]))
-            
+
         def secrets(self, l=16):
             data = self.rng.integers(256, size=l, dtype=np.uint8)
             return bits(data)
@@ -214,14 +214,14 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
                 l = len(data) ; d = ceil(size * l)
                 slice = self.rng.permutation(l)[:d]
             return slice, bits(data[slice])
-    
+
 
     class bits_hash_expand(object):
         def __init__(self, key=None):
             if key is None:
                 key = urandom(ssize)
             self.key = key 
-        
+
 
         def AU(self, tweak : bytes, s = s, t = t):
             hash = shake_256(b'AU' + self.key + tweak)
@@ -249,7 +249,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
         def psi(self, nitems : int = m, tweak : bytes = b'\x00'):
             hash = shake_256(b'psi' + self.key + tweak)
             return bits(hash.digest(nitems // 8))
-    
+
         def Z(self, tweak : bytes = b'\x00' , nitems : int = N):
             hash = shake_256(b'Z' + self.key + tweak)
             zs = []
@@ -264,7 +264,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             def __init__(self, ):
                 self.rspl = bits_rng_sampler()
                 self.hspl = bits_hash_expand()
-            
+
 
             def choose(self, m0 : np.uint8  , m1 : np.uint8) -> bytes:
         #        print(f"m's = {(m0,m1)}")
@@ -273,7 +273,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
                 return self.hspl.key
 
             def transfer(self, P, sid=0):
-            
+
             #    phi  = self.rspl.bernoulli(t)
                 phi = self.rspl.phi
                 SID = str(sid).encode()
@@ -290,7 +290,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             def __init__(self):
                 self.rspl = bits_rng_sampler()
                 self.r    = self.rspl.secrets(s)     # LPN OT  key
-            
+
             def choose(self, key, b, sid=0):
                 self.hspl = bits_hash_expand(key)
                 self.b    = b
@@ -340,7 +340,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
 
 
     def one_of_N_OT():
-        
+
         class Provider(object):
             def __init__(self, data):
                 left, right = data.bissect()
@@ -353,7 +353,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
         class Receiver(object):
             def __init__(self, b : np.uint8):
                 self.b = b
-    
+
             def accept(self,ot):
                 self.data = ot.get(self.b)
             def reveal(self):
@@ -370,7 +370,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
                 while True: 
                     if width <= 1:
                         break
-        
+
                     provider = Provider(data)
                     ot       = provider.reveal()
                     width    = width // 2
@@ -386,7 +386,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
         return __main__
 
     def N_1_of_N_OT():
-        
+
         class Provider(object):
             def __init__(self, left, right):
                 self.ot = one_of_two_bytes_OT()(left, right)
@@ -398,7 +398,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
         class Receiver(object):
             def __init__(self, b : np.uint8):
                 self.b = b
-    
+
             def accept(self,ot):
                 self.data = ot.get(self.b)
             def reveal(self):
@@ -408,7 +408,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             def __init__(self, *tags):
                 self.data    =  bits(np.concatenate(tags))
                 self.width   =  len(tags)
-            
+
             def get(self, b : np.uint8, tsize=tsize):
                 assert b < self.width , f"message index {b} out of range 0..{self.width-1}"
                 data  = self.data
@@ -446,7 +446,7 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
             except ValueError as err:
                 print(err)
                 return 
-        
+
             self.b = bits(buffer[ : nn])
             self.u = bits(buffer[nn : 2*nn])
             self.v = bits(buffer[2*nn : ])
@@ -458,12 +458,12 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
 
         def eval(self, X, Y=None, Tau=None):
             xb = self.b.mask(X) ; xu = self.u.mask(X); xv = self.v.mask(X)
-        
+
             # argumento X
             if Y is None and Tau is None:
                 assert X.ndim == 1 , f"X={X} deve ser um vetor de {n} bits ou {n//8} bytes"
                 return self.c +  xb  +  xu * xv
-        
+
             # argumentos  qs, delta -> produz a tag B
             if Tau is None:
                 return  self.c * Y +  xb * Y  +  xu * xv
@@ -475,12 +475,12 @@ def _(N, cut, ecc, eps, gamma, m, n, s, ssize, t, tsize):
 
         def evalB(self, X, Y=None, Tau=None):
             xb = self.b.maskB(X) ; xu = self.u.maskB(X); xv = self.v.maskB(X)
-        
+
             # argumento X
             if Y is None and Tau is None:
                 assert X.ndim == 1 , f"X={X} deve ser um vetor de {n} bits ou {n//8} bytes"
                 return self.c +  xb  +  xu * xv
-        
+
             # argumentos  qs, delta -> produz a tag B
             if Tau is None:
                 return  self.c * Y +  xb * Y  +  xu * xv
