@@ -15,24 +15,26 @@ app = marimo.App(width="medium")
 
 with app.setup:
     import marimo as mo
-    import numpy as np
     from os import urandom
+
+    from bits import bits
+    from ots import one_of_two_bytes_OT,  one_of_N_OT, N_1_of_N_OT
+
     import config_nb as config
-    import bits
     globals().update(config.config().__dict__)
 
 
 @app.cell
 def _(N):
-    m0 = bits.bits(urandom(N))
-    m1 = bits.bits(urandom(N))
+    m0 = bits(urandom(N))
+    m1 = bits(urandom(N))
     m0, m1
     return m0, m1
 
 
 @app.cell
 def _(m0, m1):
-    OT_cls_1_of_2 = bits.one_of_two_bytes_OT()
+    OT_cls_1_of_2 = one_of_two_bytes_OT()
 
     ot = OT_cls_1_of_2(m0,m1)
     #ot.mess0, ot.mess1
@@ -53,16 +55,16 @@ def _(ot):
 
 
 @app.cell
-def _():
-    tags = [bits.bits(urandom(8)) for _ in range(8)]
-    print(bits.bits(tags))
+def _(N):
+    tags = [bits(urandom(N)) for _ in range(8)]
+    print(bits(tags))
     return (tags,)
 
 
 @app.cell
 def _(tags):
     # N-1 out of N
-    OT_cls_1 = bits.one_of_N_OT()
+    OT_cls_1 = one_of_N_OT()
 
     ot_1 = OT_cls_1(*tags)
     print(ot_1.get(1))
@@ -72,7 +74,7 @@ def _(tags):
 @app.cell
 def _(tags):
     # N-1 out of N
-    OT_cls_2 = bits.N_1_of_N_OT()
+    OT_cls_2 = N_1_of_N_OT()
 
     ot_2 = OT_cls_2(*tags)
     all_except = ot_2.all_but(6)
