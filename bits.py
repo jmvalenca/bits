@@ -12,10 +12,11 @@
 
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.20.1"
 app = marimo.App(width="medium", auto_download=["ipynb"])
 
 with app.setup:
+    import marimo as mo
     import numpy as np
     from math import log2, floor
     from collections.abc import Iterable
@@ -27,7 +28,9 @@ with app.setup:
 
     #globals().update(config.config().__dict__)
 
+
     params = config.config().__dict__
+
     tsize  = params['tsize']
     gamma  = params['gamma']
     niters = params['niters']
@@ -36,13 +39,6 @@ with app.setup:
     eps    = params['eps']
     cut    = params['cut']
     l      = params['l']
-
-
-@app.cell
-def _():
-    import marimo as mo
-
-    return
 
 
 @app.class_definition
@@ -60,7 +56,6 @@ class bits(np.ndarray):
 
     def __array_finalize__(self, obj):
         if obj is None: return
-#        n = getattr(obj, 'n', None)
         self.dtype = np.uint8
 
 
@@ -100,17 +95,17 @@ class bits(np.ndarray):
 
     def byte_round(self):
         data = self.unpack().reshape((-1,8)).T
-        l   = len(data[0]) ; err = floor(gamma * l)
-        _0 = np.uint(0) ; _1 = np.uint(1)
+        g    = params['gamma']
+        size   = len(data[0]) ; err = floor(g * size)
         byt = []
         for i in range(8):
             x = sum(data[i])
-            if l - x < err:
-                byt.append(_1)
+            if size - x < err:
+                byt.append(np.uint(1))
             elif x < err:
-                byt.append(_0)
+                byt.append(np.uint(0))
             else:
-                byt.append(choice([_0 , _1]))
+                byt.append(choice([np.uint(0), np.uint(1)]))
         return np.packbits(byt)
 
 
@@ -145,6 +140,10 @@ class bits(np.ndarray):
 
     def sum(self):
         return np.bitwise_xor.reduce(self)
+
+    def bissect(self):
+        size_ = self.size // 2
+        return (self[:size_], self[size_:])
 
 
 @app.class_definition
@@ -267,6 +266,99 @@ def one_of_two_bytes_OT():
             assert errors >= 0, f"existem erros que não foram corrigidos"
             return bits(data_)
 
+
+    return __main__
+
+
+@app.function
+def one_of_N_OT():
+
+    class Provider(object):
+        def __init__(self, data):
+            left, right = data.bissect()
+            self.ot = one_of_two_bytes_OT()(left, right)
+        def reveal(self):
+            return self.ot
+
+    class Receiver(object):
+        def __init__(self, b : np.uint8):
+            self.b = b
+
+        def accept(self,ot):
+            self.data = ot.get(self.b)
+        def reveal(self):
+            return self.data
+
+    class __main__(object):
+        def __init__(self, *tags):
+            self.data    =  bits(np.concatenate(tags))
+            self.width   =  len(tags)
+        def get(self, b : np.uint8):
+            assert b < self.width , f"message index {b} out of range 0..{self.width-1}"
+            data = self.data
+            width = self.width
+            while True: 
+                if width <= 1:
+                    break
+
+                provider = Provider(data)
+                ot       = provider.reveal()
+                width    = width // 2
+                if b < width:
+                    receiver = Receiver(0)
+                else:
+                    receiver = Receiver(1)
+                    b = b - width
+                receiver.accept(ot)
+                data = receiver.reveal()
+            return data
+
+    return __main__
+
+
+@app.function
+def N_1_of_N_OT():
+
+    class Provider(object):
+        def __init__(self, left, right):
+            self.ot = one_of_two_bytes_OT()(left, right)
+        def reveal(self):
+            return self.ot
+
+    class Receiver(object):
+        def __init__(self, b : np.uint8):
+            self.b = b
+
+        def accept(self,ot):
+            self.data = ot.get(self.b)
+        def reveal(self):
+            return self.data
+
+    class __main__(object):
+        def __init__(self, *tags):
+            self.tsize   = len(tags[0])
+            self.data    =  bits(np.concatenate(tags))
+            self.width   =  len(tags)
+
+        def all_but(self, b : np.uint8, tsize=tsize):
+            assert b < self.width , f"message index {b} out of range 0..{self.width-1}"
+            data  = self.data
+            restof = []
+            width = self.width
+            while True: 
+                if width <= 1:
+                    break
+                left, right = data.bissect()
+                provider = Provider(left, right)
+                ot       = provider.reveal()
+                width    = width // 2
+                (side, b)  = (0,b)  if b < width else (1, b - width)
+                receiver = Receiver(side)
+                receiver.accept(ot)
+                data = receiver.reveal()
+                restof.append(left if side == 1 else right)
+            res = bits(np.concatenate(restof))
+            return bits(np.split(res, res.size // self.tsize))
 
     return __main__
 

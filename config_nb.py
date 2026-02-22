@@ -28,8 +28,8 @@ class config:
     niters : int = n
 
 # sampler
-    eps : float = 0.03
-    cut : float = 0.03
+    eps : float = 0.02
+    cut : float = 0.02
 
 
 if __name__ == "__main__":

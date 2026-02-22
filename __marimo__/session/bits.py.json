@@ -1,12 +1,12 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.19.11"
+    "marimo_version": "0.20.1"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "5422a199d55c1e5293ac99b0abeec3bc",
+      "code_hash": "0e6498439a9ab725dde5e589026d17a0",
       "outputs": [
         {
           "type": "data",
@@ -19,7 +19,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "code_hash": "b7a0c122aa2fec39742a09b8cca7e8a7",
       "outputs": [
         {
           "type": "data",
@@ -32,19 +32,6 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "35790634382dd845ab5d947510476cc4",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "vblA",
       "code_hash": "d76f1efd6b8149a370b334db3e5eff07",
       "outputs": [
         {
@@ -57,7 +44,7 @@
       "console": []
     },
     {
-      "id": "bkHC",
+      "id": "vblA",
       "code_hash": "bdb97b73be0806b092f8c7dd3436699c",
       "outputs": [
         {
@@ -70,8 +57,34 @@
       "console": []
     },
     {
-      "id": "lEQa",
+      "id": "bkHC",
       "code_hash": "265d18b616be89934fa631ac8f64b08f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "47499239a82e559da52ccad8c6de6881",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "314a4b2ed228f06cb0432cb0a86169cb",
       "outputs": [
         {
           "type": "data",

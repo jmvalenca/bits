@@ -10,7 +10,7 @@
 
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.20.1"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -32,10 +32,10 @@ def _(N):
 
 @app.cell
 def _(m0, m1):
-    OT_cls = bits.one_of_two_bytes_OT()
+    OT_cls_1_of_2 = bits.one_of_two_bytes_OT()
 
-    ot = OT_cls(m0,m1)
-    ot.mess0, ot.mess1
+    ot = OT_cls_1_of_2(m0,m1)
+    #ot.mess0, ot.mess1
     return (ot,)
 
 
@@ -49,6 +49,34 @@ def _(ot):
         print(ot.get(1)) 
     except AssertionError as err:
         print (err)
+    return
+
+
+@app.cell
+def _():
+    tags = [bits.bits(urandom(8)) for _ in range(8)]
+    print(bits.bits(tags))
+    return (tags,)
+
+
+@app.cell
+def _(tags):
+    # N-1 out of N
+    OT_cls_1 = bits.one_of_N_OT()
+
+    ot_1 = OT_cls_1(*tags)
+    print(ot_1.get(1))
+    return
+
+
+@app.cell
+def _(tags):
+    # N-1 out of N
+    OT_cls_2 = bits.N_1_of_N_OT()
+
+    ot_2 = OT_cls_2(*tags)
+    all_except = ot_2.all_but(6)
+    print(all_except)
     return
 
 
