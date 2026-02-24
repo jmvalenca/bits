@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.20.1"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -16,12 +16,16 @@ with app.setup:
     params = config().__dict__
     globals().update(params)
 
+    # tests
+    import unittest
+    tags = bits([bits(urandom(params['N'])) for _ in range(8)])
+
 
 @app.function
 def one_of_two_bytes_OT():
     n = params['n']
     niters = params['niters']
-    
+
     class Provider(object):
         def __init__(self):
             self.sampler = bits_sampler()
@@ -64,16 +68,17 @@ def one_of_two_bytes_OT():
             return (a @ self.s) + (c0 if self.b == 0 else c1)
 
     class __main__(object):
-        def __init__(self, mess0 : bits , mess1 : bits):
+        def __init__(self, *mess : bits):
+            assert len(mess) > 1
             # galois 
             ng  = 255 ; ecc = 127
             self.rs = galois.ReedSolomon(ng,ng-ecc+1)
             #
             self.provider = Provider()
             self.receiver = Receiver()
-            assert len(mess0) == len(mess1), f"messages must have equal length"
-            self.mess0 = bits(self.rs.encode(mess0))
-            self.mess1 = bits(self.rs.encode(mess1))
+            assert len(mess[0]) == len(mess[1]), f"messages must have equal length"
+            self.mess0 = bits(self.rs.encode(mess[0]))
+            self.mess1 = bits(self.rs.encode(mess[1]))
 
         def get(self, b):
             data = []
@@ -182,6 +187,32 @@ def N_1_of_N_OT():
             return bits(np.split(res, res.size // self.tsize))
 
     return __main__
+
+
+@app.class_definition
+class Test_OTS(unittest.TestCase):
+#    def setUp(self):
+#        self.tags = bits([bits(urandom(params['N'])) for _ in range(8)])
+
+    def test_one_of_two_OT(self):
+        cls = one_of_two_bytes_OT()
+        ot  = cls(*tags)
+        b = choice([0,1])
+        self.assertEqual(tags[b], ot.get(b))
+
+    def test_one_of_N_OT(self):
+        cls = one_of_N_OT()
+        ot  = cls(*tags)
+        b   = choice(range(8))
+        self.assertEqual(tags[b], ot.get(b))
+
+    def test_all_but_one_OT(self):
+        cls = N_1_of_N_OT()
+        ot  = cls(*tags)
+        b   = choice(range(8))
+        xcepts = ot.all_but(b)
+        self.assertTrue(np.all(np.isin(xcepts,tags)))
+        self.assertFalse(np.all(np.isin(tags[b],xcepts)))
 
 
 if __name__ == "__main__":

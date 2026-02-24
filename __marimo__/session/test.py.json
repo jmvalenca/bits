@@ -1,12 +1,12 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.20.1"
+    "marimo_version": "0.19.11"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "fa39b0be990f3623155d7735d7bcece7",
+      "code_hash": "5746fdc2a878f50524ed9c904316255b",
       "outputs": [
         {
           "type": "data",
@@ -19,33 +19,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "c1a57301a761a584e7e67e4fd73bd00e",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "application/json": "[\"text/plain:[ 80 244 142  25 140 175 108 180 201  30 179  55 122 179 250 253]\", \"text/plain:[104  93 111 185 230  86  10 119 197  36  65 243  14 104 180  35]\"]"
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "MJUe",
-      "code_hash": "525044a0009e0f96ab528d03dbad0510",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "vblA",
-      "code_hash": "b7f77c930a53d270d9ed8a98331a75eb",
+      "code_hash": "c74f347fafc8158112076cd3433ce851",
       "outputs": [
         {
           "type": "data",
@@ -58,67 +32,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[ 80 244 142  25 140 175 108 180 201  30 179  55 122 179 250 253]\n[104  93 111 185 230  86  10 119 197  36  65 243  14 104 180  35]\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "bkHC",
-      "code_hash": "0278670f8b6f30b5a9ba0f704342df17",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "[[117 133  63 161   3  37 177 241 152 204 171  24  71 164 147 127]\n [ 55  54  31  35  78  98 109 231  45  89 245 232 116 204 243  78]\n [249 161 171  95  39  34 177 254 234  52  65 209 217 166 125 248]\n [ 40 216 105  85  44 146 228  28 232 144 197 142 199 244 151  72]\n [ 25  33 145  21  52 205 175  43  75 229 129 109 120 147 227 242]\n [122  46 223 105  83 107  29 125  43  51  60 192 217  74 234 128]\n [  4  47 136  26 169 226 202 153  72  43 255  74 111 129 107  75]\n [ 38 160 228 150 124 194  14 125 107 187 159  26 216  32 101   9]]\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "lEQa",
-      "code_hash": "b26d63f038a3cb6fa912d8cd5ed3bd07",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "[ 55  54  31  35  78  98 109 231  45  89 245 232 116 204 243  78]\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "PKri",
-      "code_hash": "d785eaba6382ea1520ae00957c293e5f",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "[[117 133  63 161   3  37 177 241 152 204 171  24  71 164 147 127]\n [ 55  54  31  35  78  98 109 231  45  89 245 232 116 204 243  78]\n [249 161 171  95  39  34 177 254 234  52  65 209 217 166 125 248]\n [ 40 216 105  85  44 146 228  28 232 144 197 142 199 244 151  72]\n [ 25  33 145  21  52 205 175  43  75 229 129 109 120 147 227 242]\n [122  46 223 105  83 107  29 125  43  51  60 192 217  74 234 128]\n [ 38 160 228 150 124 194  14 125 107 187 159  26 216  32 101   9]]\n",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                      [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m test.py::Test_OTS::test_all_but_one_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m test.py::Test_OTS::test_one_of_N_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m test.py::Test_OTS::test_one_of_two_OT\n\nSummary:\nTotal: 3, Passed: 3, Failed: 0, Errors: 0, Skipped: 0\n",
           "mimetype": "text/plain"
         }
       ]

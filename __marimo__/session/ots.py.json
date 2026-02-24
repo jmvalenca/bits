@@ -1,12 +1,12 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.20.1"
+    "marimo_version": "0.19.11"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "2294d76e930df7732f63f72e40a4195e",
+      "code_hash": "bfedf9a1c1bcd74d7d6a15f0db0f77f0",
       "outputs": [
         {
           "type": "data",
@@ -19,7 +19,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "4ed1be7f0a8b2390dc3588f5576e29ae",
+      "code_hash": "9fd5a25c774ae1b2ad2db669e848c046",
       "outputs": [
         {
           "type": "data",
@@ -55,6 +55,26 @@
         }
       ],
       "console": []
+    },
+    {
+      "id": "gPut",
+      "code_hash": "e2e86484510a914117a2a8bac88121aa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                      [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_all_but_one_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_one_of_N_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_one_of_two_OT\n\nSummary:\nTotal: 3, Passed: 3, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
     }
   ]
 }
