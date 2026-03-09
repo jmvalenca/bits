@@ -1,7 +1,7 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.20.2"
+    "marimo_version": "0.19.11"
   },
   "cells": [
     {
@@ -57,8 +57,21 @@
       "console": []
     },
     {
+      "id": "MicY",
+      "code_hash": "f96c9ff51aa697c0be157e3e892f205e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
       "id": "bkHC",
-      "code_hash": "4788d4e2b9135aabd1540803436f0acd",
+      "code_hash": "6c964aeb3af832f24f167b4139763a35",
       "outputs": [
         {
           "type": "data",
@@ -71,7 +84,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                      [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_all_but_one_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_one_of_N_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_one_of_two_OT\n\nSummary:\nTotal: 3, Passed: 3, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[31mF\u001b[0m\u001b[32m.\u001b[0m\u001b[31m                                                                     [100%]\u001b[0m\n=================================== FAILURES ===================================\n\u001b[31m\u001b[1m____________________ Test_OTS.test_all_but_one_noreduct_OT _____________________\u001b[0m\n\nself = <__main__.Test_OTS testMethod=runTest>\n\n    def test_all_but_one_noreduct_OT(self):\n        cls = N_1_of_N_noreduct_OT()\n        ot  = cls(*tags)\n        b   = choice(range(len(tags)))\n>       xcepts = ot.all_but(b)\n                 ^^^^^^^^^^^^^\n\n\u001b[1m\u001b[31mmarimo://ots.py#cell_id=bkHC\u001b[0m:27: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\u001b[1m\u001b[31mmarimo://ots.py#cell_id=MicY\u001b[0m:70: in all_but\n    C    = self.provider.transfer(P , sid, iter)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <__main__.N_1_of_N_noreduct_OT.<locals>.Provider object at 0x16b6534d0>\nsid = 0, iter = 0\nP = ([bits([ 14, 208, 187,  75,  59, 130,  28,  50, 201,  41, 134, 110,  34,\n      251, 129, 227, 212,  47,  30, 214,  96,..., 177, 187, 133,  77,  19, 143,\n       97, 241, 162, 119, 246, 231,  33, 179,  46,  24, 127], dtype=uint8), ...], 0, 0)\nmsk = bits([  0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255,   0,   0,\n      255,   0,   0,   0,   0,   0,   0,   0,  ...  0,   0,   0,   0,   0,   0,   0,   0,   0,\n        0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0], dtype=uint8)\n\n    def transfer(self, *P, sid=0, iter=0):\n        msk = self.sampler.eta()\n        SID = str(sid).encode() + str(iter).encode()\n        a , u    = self.crs.AU(tweak=SID)\n>       assert sum(P) == u , f\"public keys  unmatch u={u}\"\n          ^^^^^^\n\u001b[1m\u001b[31mE       TypeError: unsupported operand type(s) for +: 'int' and 'list'\u001b[0m\n\n\u001b[1m\u001b[31mmarimo://ots.py#cell_id=MicY\u001b[0m:22: TypeError\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_one_of_N_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_all_but_one_OT\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_one_of_two_OT\n\nSummary:\nTotal: 4, Passed: 3, Failed: 1, Errors: 0, Skipped: 0\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mFAILED\u001b[0m ots.py::\u001b[1mTest_OTS::test_all_but_one_noreduct_OT\u001b[0m - TypeError: unsupported operand type(s) for +: 'int' and 'list'\n",
           "mimetype": "text/plain"
         }
       ]
