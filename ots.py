@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.20.2"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -18,13 +18,17 @@ with app.setup:
 
     # tests
     import unittest
-    tags = bits([bits(urandom(params['N'])) for _ in range(8)])
+    # test data
+    ntags = 16
+    tags = bits([bits(urandom(params['N'])) for _ in range(ntags)])
 
 
 @app.function
 def one_of_two_bytes_OT():
-    n = params['n']
-    niters = params['niters']
+    n      = params['n']
+    niters = params['n_iters']
+    ncc    = params['n_ecc']
+    kcc    = params['k_ecc']
 
     class Provider(object):
         def __init__(self):
@@ -71,8 +75,7 @@ def one_of_two_bytes_OT():
         def __init__(self, *mess : bits):
             assert len(mess) > 1
             # galois 
-            ng  = 255 ; ecc = 127
-            self.rs = galois.ReedSolomon(ng,ng-ecc+1)
+            self.rs = galois.ReedSolomon(ncc,kcc)
             #
             self.provider = Provider()
             self.receiver = Receiver()
@@ -81,19 +84,21 @@ def one_of_two_bytes_OT():
             self.mess1 = bits(self.rs.encode(mess[1]))
 
         def get(self, b):
-            data = []
-            for sid in range(len(self.mess0)):
-                iters = [] ; m0 = self.mess0[sid] ; m1 = self.mess1[sid]
-                for iter in range(niters):    
+            data_ = []
+            for sid in range(len(self.mess0)):    # for each position in the messages
+                iters = [] ; m0 = self.mess0[sid] ; m1 = self.mess1[sid]  
+                for iter in range(niters):    # for a given pair of bytes run the basic protocol niters times
                     key  = self.provider.choose(m0,m1)
                     P    = self.receiver.choose(key, b, sid, iter)
                     C    = self.provider.transfer(P , sid, iter)
                     res  = self.receiver.transfer(C)
-                    iters.append(res)  
-                data.append(bits(iters).byte_round()[0])
-            data_, errors  = self.rs.decode(data, errors=True)
-            assert errors >= 0, f"existem erros que não foram corrigidos"
-            return bits(data_)
+                    iters.append(res)     # collect the byte output of each iteration
+                # from the various iterations select the most frequent byte and append it to the built message
+                data_.append(bits(iters).byte_round()[0])  
+            # decode de received message and detect the number of errors corrected
+            data, errors  = self.rs.decode(data_, errors=True)
+            assert errors >= 0, f"unable to correct all errors"
+            return bits(data)
 
 
     return __main__
@@ -191,8 +196,6 @@ def N_1_of_N_OT():
 
 @app.class_definition
 class Test_OTS(unittest.TestCase):
-#    def setUp(self):
-#        self.tags = bits([bits(urandom(params['N'])) for _ in range(8)])
 
     def test_one_of_two_OT(self):
         cls = one_of_two_bytes_OT()
@@ -203,13 +206,13 @@ class Test_OTS(unittest.TestCase):
     def test_one_of_N_OT(self):
         cls = one_of_N_OT()
         ot  = cls(*tags)
-        b   = choice(range(8))
+        b   = choice(range(len(tags)))
         self.assertEqual(tags[b], ot.get(b))
 
     def test_all_but_one_OT(self):
         cls = N_1_of_N_OT()
         ot  = cls(*tags)
-        b   = choice(range(8))
+        b   = choice(range(len(tags)))
         xcepts = ot.all_but(b)
         self.assertTrue(np.all(np.isin(xcepts,tags)))
         self.assertFalse(np.all(np.isin(tags[b],xcepts)))

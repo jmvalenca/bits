@@ -1,12 +1,12 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.19.11"
+    "marimo_version": "0.20.2"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "bfedf9a1c1bcd74d7d6a15f0db0f77f0",
+      "code_hash": "96c2d6c5798e4680fbff0d442d02a809",
       "outputs": [
         {
           "type": "data",
@@ -19,7 +19,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "9fd5a25c774ae1b2ad2db669e848c046",
+      "code_hash": "188c6116685277d2a034dcbe51992a8d",
       "outputs": [
         {
           "type": "data",
@@ -57,8 +57,8 @@
       "console": []
     },
     {
-      "id": "gPut",
-      "code_hash": "e2e86484510a914117a2a8bac88121aa",
+      "id": "bkHC",
+      "code_hash": "4788d4e2b9135aabd1540803436f0acd",
       "outputs": [
         {
           "type": "data",

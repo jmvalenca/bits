@@ -1,6 +1,15 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "marimo>=0.19.10",
+#     "numpy>=2.4.2",
+#     "pyzmq>=27.1.0",
+# ]
+# ///
+
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.20.2"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -22,14 +31,20 @@ class config:
     N : int       = 16
 
 # OT security
-    n : int  = 24
+    n : int  = 16
     l : int = max(tsize, floor(n * log2(N)))
 # iterações
-    niters : int = n
+    n_iters : int = n
 
 # sampler
     eps : float = 0.02
-    cut : float = 0.02
+    cut : float = eps
+
+# MDS codes 
+    n_ecc : int = 255
+    k_ecc : int = 223
+    t_ecc : int = (n_ecc - k_ecc)/2   # ecc = 16
+    d_ecc : int = n_ecc - k_ecc + 1
 
 
 if __name__ == "__main__":
