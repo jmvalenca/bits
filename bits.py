@@ -91,12 +91,12 @@ class bits(np.ndarray):
 
 
 
-    def byte_round(self):
-        data = self.unpack().reshape((-1,8)).T
+    def byte_round(self,d=1):
+        data = self.unpack().reshape((-1,8*d)).T
         g    = params['gamma']
         size   = len(data[0]) ; err = floor(g * size)
         byt = []
-        for i in range(8):
+        for i in range(8*d):
             x = sum(data[i])
             if size - x < err:
                 byt.append(np.uint(1))

@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.20.2"
+__generated_with = "0.20.4"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -25,7 +25,7 @@ with app.setup:
 class config:
 #round bytes
     gamma : float = 0.25
-    tsize : int   = 128
+    tsize : int   = 16
 
 # bits
     N : int       = 16
@@ -34,16 +34,16 @@ class config:
     n : int  = 16
     l : int = max(tsize, floor(n * log2(N)))
 # iterações
-    n_iters : int = n
+    n_iters : int = 11
 
 # sampler
-    eps : float = 0.02
+    eps : float = 0.01
     cut : float = eps
 
 # MDS codes 
     n_ecc : int = 255
-    k_ecc : int = 223
-    t_ecc : int = (n_ecc - k_ecc)/2   # ecc = 16
+    k_ecc : int = 191
+    t_ecc : int = (n_ecc - k_ecc)/2   
     d_ecc : int = n_ecc - k_ecc + 1
 
 
