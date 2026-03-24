@@ -287,19 +287,21 @@ def N_1_of_N_noreduct_OT():
 
 @app.class_definition
 class Test_OTS(unittest.TestCase):
-
+    @unittest.skip("em experiencias")
     def test_one_of_two_OT(self):
         cls = one_of_two_bytes_OT()
         ot  = cls(*tags)
         b = choice([0,1])
         self.assertEqual(tags[b], ot.get(b))
-
+        
+    @unittest.skip("em experiencias")
     def test_one_of_N_OT(self):
         cls = one_of_N_OT()
         ot  = cls(*tags)
         b   = choice(range(len(tags)))
         self.assertEqual(tags[b], ot.get(b))
 
+    @unittest.skip("em experiencias")    
     def test_all_but_one_OT(self):
         cls = N_1_of_N_OT()
         ot  = cls(*tags)

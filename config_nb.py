@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.21.1"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -45,6 +45,10 @@ class config:
     k_ecc : int = 191
     t_ecc : int = (n_ecc - k_ecc)/2   
     d_ecc : int = n_ecc - k_ecc + 1
+
+# VOLE
+    x_size : int = 32        # lenght of "x" in bits
+    n_tags : int = x_size
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@
 
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.21.1"
 app = marimo.App(width="medium", auto_download=["ipynb"])
 
 with app.setup:
@@ -24,7 +24,7 @@ with app.setup:
     from hashlib import shake_256
     from os import urandom
     from config_nb import config
-
+    import unittest
 
 
 
@@ -192,6 +192,36 @@ class bits_crs(object):
         hash.update(b'U')
         U = bits(hash.digest(l))
         return A,U
+
+
+@app.cell
+def _(POL):
+    class Test_bits(unittest.TestCase):
+        #@unittest.skip("experiência")
+        def test_add(self):
+            spl=bits_sampler()
+            n = 4
+            a = spl.secrets(n) 
+            b = spl.secrets(n*n).reshape((n,n))
+            c = a + b
+            self.assertTrue(np.all([c[i] ==  a + b[i] for i in range(n)]))
+
+        #@unittest.skip("experiência")
+        def test_mul(self):
+            spl=bits_sampler()
+            n = 4
+            a = spl.secrets(n) 
+            b = spl.secrets(n*n).reshape((n,n))
+            c = a * b
+            self.assertTrue(np.all([c[i] ==  a * b[i] for i in range(n)]))
+
+        def test_pol_0(self):
+            p = POL(4) ; x = bits(urandom(8)).reshape((4,2))
+            res = p.value(x)
+            p.c = res
+            self.assertEqual(p.value(x), bits([0]))
+
+    return
 
 
 if __name__ == "__main__":

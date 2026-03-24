@@ -1,0 +1,100 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.21.1",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "ff1f60c8aa48c80b072ed7ad6ba004db",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "e78205bf65ceb4ec95b274843da90f9c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "4a37f60c1c120812a44ac55f9ad1302a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "4e994946ec83621621878ca9ddfdf185",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "ea9db65f1bf963e5c51ff63e65d62f02",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "[[32], [32, 16], [16], [32, 16]]"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "54c6a830d1ec9cf75921a1459df260eb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "90f197de6eea49ad6ba0546232ae7116",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "[\"text/plain:[ 76 137  35 131 129 139  66 220 210  33 225 136  93  72  10  35]\", \"text/plain:[156  81  75  35 209 101  96  40  26  29 169 170 155  84 132 131]\"]"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
