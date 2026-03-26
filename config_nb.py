@@ -34,11 +34,11 @@ class config:
     n : int  = 16
     l : int = max(tsize, floor(n * log2(N)))
 # iterações
-    n_iters : int = 11
+    n_iters : int = 31
 
 # sampler
-    eps : float = 0.01
-    cut : float = eps
+    eps : float = 0.02
+    cut : float = 0.1
 
 # MDS codes 
     n_ecc : int = 255

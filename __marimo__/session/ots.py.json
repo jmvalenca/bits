@@ -8,38 +8,87 @@
     {
       "id": "setup",
       "code_hash": "96c2d6c5798e4680fbff0d442d02a809",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "Hbol",
-      "code_hash": "188c6116685277d2a034dcbe51992a8d",
-      "outputs": [],
+      "code_hash": "075a3852cfc07ed4b0a92f36640885e3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "MJUe",
       "code_hash": "54de28abe42b5b2393f8e34032ebf409",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "vblA",
       "code_hash": "4c93da45a1c1540d5af6ca6e96176b1b",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "bkHC",
-      "code_hash": "dc1b3b61a1aa3db6c3d849b8af69d876",
-      "outputs": [],
+      "code_hash": "689feda9ccedebd2ac1db1dc7d820f2f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "lEQa",
-      "code_hash": "4095c7fc3533e4da9072a6450431b3e3",
-      "outputs": [],
-      "console": []
+      "code_hash": "572897803c78e916dbb2303a63361357",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[33ms\u001b[0m\u001b[33ms\u001b[0m\u001b[33ms\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                     [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m ots.py::Test_OTS::test_one_of_two_OT\n\nSummary:\nTotal: 4, Passed: 1, Failed: 0, Errors: 0, Skipped: 3\n",
+          "mimetype": "text/plain"
+        }
+      ]
     }
   ]
 }

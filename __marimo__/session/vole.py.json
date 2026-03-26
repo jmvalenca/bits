@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "ff1f60c8aa48c80b072ed7ad6ba004db",
+      "code_hash": "0d91df695c90318ab98ae0277d942325",
       "outputs": [
         {
           "type": "data",
@@ -20,7 +20,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "e78205bf65ceb4ec95b274843da90f9c",
+      "code_hash": "e4794c9a4994151fd61034e7997b39af",
       "outputs": [
         {
           "type": "data",
@@ -33,7 +33,7 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "4a37f60c1c120812a44ac55f9ad1302a",
+      "code_hash": "f7e06fae455796e31fabed72a5ead87b",
       "outputs": [
         {
           "type": "data",
@@ -46,7 +46,7 @@
     },
     {
       "id": "vblA",
-      "code_hash": "4e994946ec83621621878ca9ddfdf185",
+      "code_hash": "6491110260737473cb2be9e853b541f3",
       "outputs": [
         {
           "type": "data",
@@ -55,46 +55,14 @@
           }
         }
       ],
-      "console": []
-    },
-    {
-      "id": "bkHC",
-      "code_hash": "ea9db65f1bf963e5c51ff63e65d62f02",
-      "outputs": [
+      "console": [
         {
-          "type": "data",
-          "data": {
-            "application/json": "[[32], [32, 16], [16], [32, 16]]"
-          }
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[33ms\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m vole.py::Test_VOLE::test_funcional\n\nSummary:\nTotal: 2, Passed: 1, Failed: 0, Errors: 0, Skipped: 1\n",
+          "mimetype": "text/plain"
         }
-      ],
-      "console": []
-    },
-    {
-      "id": "lEQa",
-      "code_hash": "54c6a830d1ec9cf75921a1459df260eb",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "PKri",
-      "code_hash": "90f197de6eea49ad6ba0546232ae7116",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "application/json": "[\"text/plain:[ 76 137  35 131 129 139  66 220 210  33 225 136  93  72  10  35]\", \"text/plain:[156  81  75  35 209 101  96  40  26  29 169 170 155  84 132 131]\"]"
-          }
-        }
-      ],
-      "console": []
+      ]
     }
   ]
 }

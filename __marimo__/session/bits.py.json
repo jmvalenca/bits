@@ -2,24 +2,24 @@
   "version": "1",
   "metadata": {
     "marimo_version": "0.21.1",
-    "script_metadata_hash": "32eea9f588136c73c79435a8100e0110"
+    "script_metadata_hash": "41c9964f5a8738f15d64408f440beacc"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "cc953c5cee2e7422dae70b898be7694d",
+      "code_hash": "0a099684daf6c168a4dd6f1f3bb0e27b",
       "outputs": [],
       "console": []
     },
     {
       "id": "Hbol",
-      "code_hash": "8dc752c62b26e14d9d9be301b6e8fd88",
+      "code_hash": "01a895c2d4f623d98bec6d61887eb4c9",
       "outputs": [],
       "console": []
     },
     {
       "id": "MJUe",
-      "code_hash": "540277a424c82158b994703bf9435975",
+      "code_hash": "05383105a451e5b6820584596e32f4b0",
       "outputs": [],
       "console": []
     },
@@ -30,8 +30,8 @@
       "console": []
     },
     {
-      "id": "lEQa",
-      "code_hash": "a63bc855c5f019d9f5792c6e487a6d19",
+      "id": "bkHC",
+      "code_hash": "3909e052c64188760ef69ea011cb15e7",
       "outputs": [],
       "console": []
     }

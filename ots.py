@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.21.1"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -46,8 +46,8 @@ def one_of_two_bytes_OT():
             SID = str(sid).encode() + str(iter).encode()
             a , u    = self.crs.AU(tweak=SID)
             (p0, p1) = P 
-            assert p0 + p1 == u , f"public keys p0,p1 = ({p0},{p1}) unmatch u={u}"     
-            a_ = msk @ a ; p0_ = msk @ p0 ; p1_ = msk @ p1
+            assert p0 + p1 == u , f"public keys p0,p1 = ({p0},{p1}) unmatch u={u}"  
+            a_ = msk @ a  ; p0_ = msk @ p0 ; p1_ = msk @ p1
             return (a_, p0_ + self.m0 , p1_ + self.m1)
 
 
@@ -62,7 +62,7 @@ def one_of_two_bytes_OT():
             SID = str(sid).encode() + str(iter).encode()
             a, u = self.crs.AU(tweak=SID)
             e    = self.sampler.noise()
-            t    =  (a @ self.s) + e
+            t    =  a @ self.s + e
             if self.b == 0:
                 return  (t , t + u)
             return (t + u , t)
@@ -218,14 +218,14 @@ def N_1_of_N_noreduct_OT():
             SID = str(sid).encode() + str(iter).encode()
             a , u    = self.crs.AU(tweak=SID)
             assert bits(sum(pks)) == u , f"public keys  unmatch u={u}"     
-            a_ = msk @ a ; pp_ = [msk @ p for p in pks]
+            a_ = msk @ a  ; pp_ = [msk @ p for p in pks]
             return (a_, [p_ + m_ for (p_,m_) in zip(pp_, self.mm_)])
 
 
     class Receiver(object):
         def __init__(self):
             self.sampler = bits_sampler()
-            self.ss      = [self.sampler.secrets(n)  for _ in range(ntags-1)]   # LPN OT  key
+            self.ss    = [self.sampler.secrets(n)  for _ in range(ntags-1)]  # LPN OT  key
 
         def choose(self, key, b, sid=0, iter=0):
             self.b = b
@@ -242,7 +242,7 @@ def N_1_of_N_noreduct_OT():
 
         def transfer(self,crypt):
             (A, C) = crypt ; b = self.b
-            aa = [A @ s for s in self.ss]
+            aa = [A @ s  for s in self.ss] 
             cc = C[:b] + C[b+1:]
             return [a + c for (a,c) in zip(aa,cc)]
 
@@ -287,13 +287,13 @@ def N_1_of_N_noreduct_OT():
 
 @app.class_definition
 class Test_OTS(unittest.TestCase):
-    @unittest.skip("em experiencias")
+#    @unittest.skip("em experiencias")
     def test_one_of_two_OT(self):
         cls = one_of_two_bytes_OT()
         ot  = cls(*tags)
         b = choice([0,1])
         self.assertEqual(tags[b], ot.get(b))
-        
+
     @unittest.skip("em experiencias")
     def test_one_of_N_OT(self):
         cls = one_of_N_OT()
@@ -310,7 +310,7 @@ class Test_OTS(unittest.TestCase):
         self.assertTrue(np.all(np.isin(xcepts,tags)))
         self.assertFalse(np.all(np.isin(tags[b],xcepts)))
 
-#    @unittest.skip("em experiencias")
+    @unittest.skip("em experiencias")
     def test_all_but_one_noreduct_OT(self):
         cls = N_1_of_N_noreduct_OT()
         ot  = cls(*tags)

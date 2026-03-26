@@ -21,22 +21,24 @@ with app.setup:
     one  = bits([255])
 
     n_tags = params['n_tags']
+    tsize  = params['tsize']
     # tests
     import unittest
 
 
 @app.class_definition
 class POL(object):
-    def __init__(self, n : int = n_tags , key = None, tweak = b'\x00\x00'):
+    def __init__(self, n_tags = n_tags , key = None, tweak = b'\x00\x00'):
         if key is None:
-            key = urandom(n)
+            key = urandom(tsize)
         self._key = key
+        n = n_tags // 8
         hash = shake_256(b'POL' + self._key + tweak)
         buff = hash.digest(3*n)
         self._coef  =  {'c' : bits([0]),
-                        'b' : bits(buff[:n]) , 
-                        'u' : bits(buff[n:2*n]), 
-                        'v' : bits(buff[2*n:])}
+                        'b' : bits(buff[:n]).unpack(), 
+                        'u' : bits(buff[n:2*n]).unpack(), 
+                        'v' : bits(buff[2*n:]).unpack()}
 
     @property
     def c(self):
@@ -46,15 +48,14 @@ class POL(object):
     def c(self, value : np.ndarray):
         self._coef['c'] = value
 
-    def value(self, x : np.ndarray , y : np.ndarray = one):
-        if x.ndim < 2:
+    def e_value(self, x : np.ndarray , y : np.ndarray = one):
+        if x.ndim == 1:
             x = x.unpack()
         bx, ux, vx = self._coef['b'] @ x, self._coef['u'] @ x, self._coef['v'] @ x
         return y*y*self.c + (y * bx) + (ux * vx)
 
-    def a1_a0(self, x : np.ndarray , m : np.ndarray):
-        if x.ndim < 2:
-            x = x.unpack()
+    def a_values(self, x : np.ndarray , m : np.ndarray):
+        x = x.unpack()
         bx, ux, vx = self._coef['b'] @ x, self._coef['u'] @ x, self._coef['v'] @ x
         bm, um, vm = self._coef['b'] @ m, self._coef['u'] @ m, self._coef['v'] @ m
         return bm + (ux * vm) + (vx * um) , um * vm
@@ -87,9 +88,9 @@ def VOLE_dv():
         def __init__(self):
             spl = bits_sampler()
             ot_class = OT()
-            self._delta = spl.secrets(tag_size)
-            self._qs    = [spl.secrets(tag_size) for _ in range(n_tags)]
-            self._ots   = [ot_class(q, q + self.delta) for q in self.qs]
+            self._delta = spl.secrets(tsize)
+            self._qs    = [spl.secrets(tsize) for _ in range(n_tags)]
+            self._ots   = [ot_class(q, q + self.delta) for q in self._qs]
 
         @property
         def ots(self):
@@ -122,38 +123,35 @@ def VOLE_dv():
     return __main__
 
 
-@app.cell
-def _():
-    vole_class = VOLE_dv()
-    protocol   = vole_class(bits(urandom(n_tags//8)))
-    x  = protocol.prover.x
-    m  = protocol.prover.tags
-    d  = protocol.verifier.delta
-    qs = protocol.verifier.qs
-    return d, m, qs, x
+@app.class_definition
+class Test_VOLE(unittest.TestCase):
 
+    @unittest.skip("_")
+    def test_pol(self):
+        p = POL()
+        x = bits(urandom(n_tags//8))
+        p.c = p.e_value(x)
+        r   = p.e_value(x)
+        self.assertEqual(r,zero)
 
-@app.cell
-def _(d, m, qs, x):
-    x.unpack().shape, m.shape, d.shape, qs.shape
-    return
-
-
-@app.cell
-def _(d, m, qs, x):
-    p = POL()
-    p.c = p.value(x)
-    assert p.value(x) == zero
-
-    A1, A0 = p.a1_a0(x,m)
-    B      = p.value(qs,d)
-    return A0, A1, B
-
-
-@app.cell
-def _(A0, A1, B, d):
-    B, A1*d + A0
-    return
+    #@unittest.skip("_")
+    def test_funcional(self):
+        vole_class = VOLE_dv()
+        x = bits(urandom(n_tags//8))
+        protocol   = vole_class(x)
+        self.assertEqual(x , protocol.prover.x)
+    #
+        xx     = x.unpack()
+        xtags  = protocol.prover.tags
+        d  = protocol.verifier.delta
+        qs = protocol.verifier.qs
+        self.assertEqual(qs, bits([t + d if b else t  for (b,t) in zip(xx,xtags)])) 
+    #
+        p = POL()
+        p.c = p.e_value(x)
+        A1, A0 = p.a_values(x,xtags)
+        B      = p.e_value(qs,d)
+        self.assertEqual(B, A1*d + A0)
 
 
 if __name__ == "__main__":

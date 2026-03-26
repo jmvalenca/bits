@@ -4,6 +4,7 @@
 #     "galois==0.4.10",
 #     "marimo>=0.19.10",
 #     "numpy==2.3.5",
+#     "pytest==9.0.2",
 #     "pyzmq>=27.1.0",
 # ]
 # [tool.marimo.runtime]
@@ -24,8 +25,8 @@ with app.setup:
     from hashlib import shake_256
     from os import urandom
     from config_nb import config
-    import unittest
 
+    import unittest
 
 
     params = config().__dict__
@@ -47,9 +48,12 @@ class bits(np.ndarray):
         elif isinstance(input_array, np.ndarray):
             obj = input_array.astype(np.uint8).view(cls)
         elif isinstance(input_array, Iterable):
-            obj = np.stack(input_array).astype(np.uint8).view(cls)
+            data = np.stack(input_array).astype(np.uint8)
+            if isinstance(input_array,str) and input_array.isdecimal():
+                data = np.packbits(data)
+            obj = data.view(cls)
         else:
-            obj = np.packbits(input_array).view(cls)
+            raise ValueError(f"do not knw how to make a bits object from {input_array}")
         return obj
 
     def __array_finalize__(self, obj):
@@ -66,6 +70,7 @@ class bits(np.ndarray):
 
     def unpack(self):
         return np.unpackbits(self)
+
 
     def lift(self):
         return self.view(np.ndarray)
@@ -123,7 +128,7 @@ class bits(np.ndarray):
     def add(self, other):
         if np.ndim(self) > 0:
             return np.bitwise_xor.__call__(self,other).view(bits)
-        return np.bitwise_xor(self,other)
+        return np.bitwise_xor(self,other).view(bits)
 
     def __add__(self,other):
         return self.add(other)
@@ -131,10 +136,27 @@ class bits(np.ndarray):
     def mul(self, other):
         if np.ndim(self) > 0:
             return np.bitwise_and.__call__(self,other).view(bits)
-        return np.bitwise_and(self, other)
+        return np.bitwise_and(self, other).view(bits)
 
     def __mul__(self,other):
         return self.mul(other)
+
+    def matmul(self,other):
+        if np.ndim(self) == 1 and np.ndim(other) == 1:
+            return (self * other).sum().view(bits)
+        if np.ndim(self) == 1:
+            (_,k) = other.shape
+            return np.array([self.matmul(other[:,j]) for j in range(k)]).view(bits)
+        if np.ndim(other) == 1:
+            (l,_) = self.shape
+            return np.array([self[t].matmul(other) for t in range(l)]).view(bits)
+        else:
+            (l,n) = self.shape ; (m,k) = other.shape
+            assert n == m, f"shapes {(l,n)} and {(m,k)} are incompatible in matmul"
+            return np.array([[self[i,:].matmul(other[:,j]) for j in range(k)] for i in range(l)]).view(bits)
+
+    def __matmul__(self,other):
+        return self.matmul(other)
 
     def sum(self):
         return np.bitwise_xor.reduce(self)
@@ -157,16 +179,17 @@ class bits_sampler(object):
 
 
     def noise(self, l : int =l, eps : float = eps):
-        return bits(np.packbits([1 if self.rng.random() < eps else 0 for _ in range(l * 8)]))
+        return bits(np.packbits([1 if self.rng.random() < eps else 0 for _ in range(l*8)]))
 
     def secrets(self, n=n):
         data = self.rng.integers(256, size=n, dtype=np.uint8)
         return bits(data)
 
     def eta(self, l:int = l, cut:float = cut):
-        d = floor(l * cut) ; slice = self.rng.permutation(l)
-        data  = bits([255]*d + [0]*(l-d))
-        return bits(data[slice]).T
+        l8 = l*8 ; d = floor(l8*cut) ; r = l8-d
+        slice = self.rng.permutation(l8)
+        data = np.array([1]*d + [0]*r)[slice]
+        return bits(np.packbits(data))
 
 
 @app.class_definition
@@ -194,34 +217,41 @@ class bits_crs(object):
         return A,U
 
 
-@app.cell
-def _(POL):
-    class Test_bits(unittest.TestCase):
-        #@unittest.skip("experiência")
-        def test_add(self):
-            spl=bits_sampler()
-            n = 4
-            a = spl.secrets(n) 
-            b = spl.secrets(n*n).reshape((n,n))
-            c = a + b
-            self.assertTrue(np.all([c[i] ==  a + b[i] for i in range(n)]))
+@app.class_definition
+class Test_bits(unittest.TestCase):
+    @unittest.skip("experiência")
+    def test_add(self):
+        spl=bits_sampler()
+        n = 4
+        a = spl.secrets(n) 
+        b = spl.secrets(n*n).reshape((n,n))
+        c = a + b
+        self.assertIsInstance(c, bits)
+        self.assertTrue(np.all([c[i] ==  a + b[i] for i in range(n)]))
 
-        #@unittest.skip("experiência")
-        def test_mul(self):
-            spl=bits_sampler()
-            n = 4
-            a = spl.secrets(n) 
-            b = spl.secrets(n*n).reshape((n,n))
-            c = a * b
-            self.assertTrue(np.all([c[i] ==  a * b[i] for i in range(n)]))
+    @unittest.skip("experiência")
+    def test_mul(self):
+        spl=bits_sampler()
+        n = 4
+        a = spl.secrets(n) 
+        b = spl.secrets(n*n).reshape((n,n))
+        c = a * b
+        self.assertTrue(np.all([c[i] ==  a * b[i] for i in range(n)]))
 
-        def test_pol_0(self):
-            p = POL(4) ; x = bits(urandom(8)).reshape((4,2))
-            res = p.value(x)
-            p.c = res
-            self.assertEqual(p.value(x), bits([0]))
+    @unittest.skip("matmult0")
+    def test_matmul_0(self):
+        a = bits(urandom(8)).reshape((2,4))
+        b = bits(urandom(8)).reshape((4,2))
+        self.assertEqual((a @ b).T , (b.T @ a.T))
 
-    return
+    @unittest.skip("matmul1")
+    def test_matmul_1(self):
+        for l in range(2,16):
+            m = bits(urandom(2*l*l)).reshape((l,2*l))
+            q = (m.T) @ m
+            x = bits(urandom(2*l))
+            with self.subTest(l):
+                self.assertEqual(x @ q , q @ x)
 
 
 if __name__ == "__main__":
