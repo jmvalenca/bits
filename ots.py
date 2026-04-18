@@ -1,6 +1,15 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "galois==0.4.10",
+#     "marimo>=0.22.4",
+#     "pytest==9.0.3",
+# ]
+# ///
+
 import marimo
 
-__generated_with = "0.21.1"
+__generated_with = "0.23.1"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -8,19 +17,28 @@ with app.setup:
     from bits import bits, bits_crs, bits_sampler
     import numpy as np
     import galois
-    from config_nb import config
+    from math import ceil, log2
+    from hashlib import shake_256
+
+    from config_nb import config, config_NP
     from os import urandom
     from random import choice
 
 
-    params = config().__dict__
-    globals().update(params)
+    params    = config().__dict__
+    params_NP = config_NP().__dict__
+
+    #globals().update(params)
+    #globals().update(params_NP)
 
     # tests
     import unittest
     # test data
-    ntags = 16
-    tags = bits([bits(urandom(params['N'])) for _ in range(ntags)])
+    tags = bits([bits(urandom(params['N'])) for _ in range(16)])
+
+    #Naor_Pinkas
+
+    msgs = [bits(urandom(params_NP['msize'])) for _ in range(params_NP['N'])]
 
 
 @app.function
@@ -148,6 +166,65 @@ def one_of_N_OT():
 
 
 @app.function
+def one_of_N_noreduct_OT():             # Naor & Pinkas
+    ksize = params_NP['ksize']
+    msize = params_NP['msize']
+    N     = params_NP['N']
+    l     = ceil(log2(N))
+
+    n_key = lambda : bits(urandom(ksize))
+
+    def ibits(I : int):
+        ii = [int(i) for i in bin(I)[2:]] ; pad = [0]*(l - len(ii)) 
+        return ii + pad
+
+    def F(k : bits, I : int):
+        return bits(shake_256(k.tobytes() + (I).to_bytes()).digest(msize))
+
+    class Provider(object):
+        def __init__(self, Xs):
+            self.ks = [(n_key(), n_key()) for j in range(l)]
+            self.Ys = []
+            for I in range(N):
+                M = sum([F(k[i], I) for (i,k) in zip(ibits(I), self.ks)])
+                self.Ys.append(Xs[I] + M) 
+
+
+        def engage(self):
+            cls = one_of_two_bytes_OT()
+            return [cls(*k) for k in self.ks] 
+
+        def transfer(self):
+            return self.Ys
+
+    class Receiver(object):
+        def __init__(self, I):
+            self.I = I
+            self.ii = ibits(I)
+
+
+        def engage(self, ots):
+            self.M = sum([F(ot.get(i), self.I) for (i,ot) in zip(self.ii, ots)])   
+
+        def reveal(self, Ys):
+            return Ys[self.I] + self.M
+
+    class __main__(object):
+        def __init__(self, msgs):
+            self.Provider = Provider(msgs)
+
+        def get(self,I):
+            self.Receiver = Receiver(I)
+            ots = self.Provider.engage()
+            self.Receiver.engage(ots)
+            Ys = self.Provider.transfer()
+            X  = self.Receiver.reveal(Ys)
+            return X
+
+    return __main__
+
+
+@app.function
 def N_1_of_N_OT():
 
     class Provider(object):
@@ -194,130 +271,143 @@ def N_1_of_N_OT():
     return __main__
 
 
-@app.function
-def N_1_of_N_noreduct_OT():
-    n      = params['n']
-    niters = params['n_iters']
-    n_ecc  = params['n_ecc']
-    k_ecc  = params['k_ecc']
-    l      = params['l']
+@app.cell
+def _(ntags):
+    def N_1_of_N_noreduct_OT():
+        n      = params['n']
+        niters = params['n_iters']
+        n_ecc  = params['n_ecc']
+        k_ecc  = params['k_ecc']
+        l      = params['l']
 
 
 
-    class Provider(object):
-        def __init__(self):
-            self.sampler = bits_sampler()
-            self.crs     = bits_crs()
+        class Provider(object):
+            def __init__(self):
+                self.sampler = bits_sampler()
+                self.crs     = bits_crs()
 
-        def choose(self, *mm) -> bytes:
-            self.mm_   = [bits([m]) for m in mm]
-            return self.crs.key
+            def choose(self, *mm) -> bytes:
+                self.mm_   = [bits([m]) for m in mm]
+                return self.crs.key
 
-        def transfer(self, sid=0, iter=0, *pks):
-            msk = self.sampler.eta()
-            SID = str(sid).encode() + str(iter).encode()
-            a , u    = self.crs.AU(tweak=SID)
-            assert bits(sum(pks)) == u , f"public keys  unmatch u={u}"     
-            a_ = msk @ a  ; pp_ = [msk @ p for p in pks]
-            return (a_, [p_ + m_ for (p_,m_) in zip(pp_, self.mm_)])
-
-
-    class Receiver(object):
-        def __init__(self):
-            self.sampler = bits_sampler()
-            self.ss    = [self.sampler.secrets(n)  for _ in range(ntags-1)]  # LPN OT  key
-
-        def choose(self, key, b, sid=0, iter=0):
-            self.b = b
-            self.crs = bits_crs(key)
-            SID = str(sid).encode() + str(iter).encode()
-            a, u = self.crs.AU(tweak=SID)
-            ee    = [self.sampler.noise() for _ in range(ntags-1)]
-            goodks  = [(a @ s) + e  for (s,e) in zip(self.ss, ee)]
-            badks   = [bits(sum(goodks)) + u]
-            pks     = goodks[:b-1] + badks  + goodks[b-1:]
-            ## debug
-            assert  u == sum(pks), f"bad u+parity ={u + sum(pks)}"
-            return pks
-
-        def transfer(self,crypt):
-            (A, C) = crypt ; b = self.b
-            aa = [A @ s  for s in self.ss] 
-            cc = C[:b] + C[b+1:]
-            return [a + c for (a,c) in zip(aa,cc)]
-
-    class __main__(object):
-        def __init__(self, *tags):
-            self.n_tags    = len(tags)
-            assert self.n_tags >= 2, "n_tags {self.n_tags} must be at least 2"
-            self.tag_size  = len(tags[0])
-            # galois 
-            self.rs = galois.ReedSolomon(n_ecc,k_ecc)
-            self.provider = Provider()
-            self.receiver = Receiver()
-            messages = []
-            for tag in tags:
-                assert len(tag) == self.tag_size, f"tags must be all of the same size"
-                messages.append(bits(self.rs.encode(tag)))
-            self.messages = bits(messages)
+            def transfer(self, sid=0, iter=0, *pks):
+                msk = self.sampler.eta()
+                SID = str(sid).encode() + str(iter).encode()
+                a , u    = self.crs.AU(tweak=SID)
+                assert bits(sum(pks)) == u , f"public keys  unmatch u={u}"     
+                a_ = msk @ a  ; pp_ = [msk @ p for p in pks]
+                return (a_, [p_ + m_ for (p_,m_) in zip(pp_, self.mm_)])
 
 
-        def all_but(self, b : np.uint8):
-            data_ = []
-            for sid in range(len(self.messages[0])):    # for each position in the messages
-                iters = [] ; mm = [self.messages[i][sid]  for i in range(ntags)] 
-                for iter in range(niters):    # for a given pair of bytes run the basic protocol niters times
-                    key   = self.provider.choose(*mm)
-                    pks   = self.receiver.choose(key, b, sid, iter)
-                    crypt = self.provider.transfer(sid, iter, *pks )
-                    res   = self.receiver.transfer(crypt)
-                    iters.append(res)  
-                iters_ = bits(iters).byte_round(d=ntags-1)
-                # from the various iterations select the most frequent bytes and append it to the built message
-                data_.append(iters_)  
-            data = list(bits(data_).T)
-            # decode de received message and detect the number of errors corrected
-            tags_and_errors  = [self.rs.decode(tag_, errors=True) for tag_ in data]
-            assert all([errors >= 0 for (_,errors) in tags_and_errors]), f"unable to correct all errors"
-            return [bits(tag) for (tag, _) in tags_and_errors]
+        class Receiver(object):
+            def __init__(self):
+                self.sampler = bits_sampler()
+                self.ss    = [self.sampler.secrets(n)  for _ in range(ntags-1)]  # LPN OT  key
+
+            def choose(self, key, b, sid=0, iter=0):
+                self.b = b
+                self.crs = bits_crs(key)
+                SID = str(sid).encode() + str(iter).encode()
+                a, u = self.crs.AU(tweak=SID)
+                ee    = [self.sampler.noise() for _ in range(ntags-1)]
+                goodks  = [(a @ s) + e  for (s,e) in zip(self.ss, ee)]
+                badks   = [bits(sum(goodks)) + u]
+                pks     = goodks[:b-1] + badks  + goodks[b-1:]
+                ## debug
+                assert  u == sum(pks), f"bad u+parity ={u + sum(pks)}"
+                return pks
+
+            def transfer(self,crypt):
+                (A, C) = crypt ; b = self.b
+                aa = [A @ s  for s in self.ss] 
+                cc = C[:b] + C[b+1:]
+                return [a + c for (a,c) in zip(aa,cc)]
+
+        class __main__(object):
+            def __init__(self, *tags):
+                self.n_tags    = len(tags)
+                assert self.n_tags >= 2, "n_tags {self.n_tags} must be at least 2"
+                self.tag_size  = len(tags[0])
+                # galois 
+                self.rs = galois.ReedSolomon(n_ecc,k_ecc)
+                self.provider = Provider()
+                self.receiver = Receiver()
+                messages = []
+                for tag in tags:
+                    assert len(tag) == self.tag_size, f"tags must be all of the same size"
+                    messages.append(bits(self.rs.encode(tag)))
+                self.messages = bits(messages)
 
 
-    return __main__
+            def all_but(self, b : np.uint8):
+                data_ = []
+                for sid in range(len(self.messages[0])):    # for each position in the messages
+                    iters = [] ; mm = [self.messages[i][sid]  for i in range(ntags)] 
+                    for iter in range(niters):    # for a given pair of bytes run the basic protocol niters times
+                        key   = self.provider.choose(*mm)
+                        pks   = self.receiver.choose(key, b, sid, iter)
+                        crypt = self.provider.transfer(sid, iter, *pks )
+                        res   = self.receiver.transfer(crypt)
+                        iters.append(res)  
+                    iters_ = bits(iters).byte_round(d=ntags-1)
+                    # from the various iterations select the most frequent bytes and append it to the built message
+                    data_.append(iters_)  
+                data = list(bits(data_).T)
+                # decode de received message and detect the number of errors corrected
+                tags_and_errors  = [self.rs.decode(tag_, errors=True) for tag_ in data]
+                assert all([errors >= 0 for (_,errors) in tags_and_errors]), f"unable to correct all errors"
+                return [bits(tag) for (tag, _) in tags_and_errors]
 
 
-@app.class_definition
-class Test_OTS(unittest.TestCase):
-#    @unittest.skip("em experiencias")
-    def test_one_of_two_OT(self):
-        cls = one_of_two_bytes_OT()
-        ot  = cls(*tags)
-        b = choice([0,1])
-        self.assertEqual(tags[b], ot.get(b))
+        return __main__
 
-    @unittest.skip("em experiencias")
-    def test_one_of_N_OT(self):
-        cls = one_of_N_OT()
-        ot  = cls(*tags)
-        b   = choice(range(len(tags)))
-        self.assertEqual(tags[b], ot.get(b))
+    return (N_1_of_N_noreduct_OT,)
 
-    @unittest.skip("em experiencias")    
-    def test_all_but_one_OT(self):
-        cls = N_1_of_N_OT()
-        ot  = cls(*tags)
-        b   = choice(range(len(tags)))
-        xcepts = ot.all_but(b)
-        self.assertTrue(np.all(np.isin(xcepts,tags)))
-        self.assertFalse(np.all(np.isin(tags[b],xcepts)))
 
-    @unittest.skip("em experiencias")
-    def test_all_but_one_noreduct_OT(self):
-        cls = N_1_of_N_noreduct_OT()
-        ot  = cls(*tags)
-        b   = choice(range(len(tags)))
-        xcepts = ot.all_but(b)
-        self.assertTrue(np.all(np.isin(xcepts,tags)))
-        self.assertFalse(np.all(np.isin(tags[b],xcepts)))
+@app.cell
+def _(N_1_of_N_noreduct_OT):
+    class Test_OTS(unittest.TestCase):
+        @unittest.skip("em experiencias")
+        def test_one_of_two_OT(self):
+            cls = one_of_two_bytes_OT()
+            ot  = cls(*tags)
+            b = choice([0,1])
+            self.assertEqual(tags[b], ot.get(b))
+
+        @unittest.skip("em experiencias")
+        def test_one_of_N_OT(self):
+            cls = one_of_N_OT()
+            ot  = cls(*tags)
+            b   = choice(range(len(tags)))
+            self.assertEqual(tags[b], ot.get(b))
+
+        #@unittest.skip("em experiencias")
+        def test_one_of_N_noreduc_OT(self):
+            cls = one_of_N_noreduct_OT()
+            ot  = cls(msgs)
+            b   = choice(range(len(msgs)))
+            self.assertEqual(msgs[b], ot.get(b))
+
+        @unittest.skip("em experiencias")    
+        def test_all_but_one_OT(self):
+            cls = N_1_of_N_OT()
+            ot  = cls(*tags)
+            b   = choice(range(len(tags)))
+            xcepts = ot.all_but(b)
+            self.assertTrue(np.all(np.isin(xcepts,tags)))
+            self.assertFalse(np.all(np.isin(tags[b],xcepts)))
+
+        @unittest.skip("em experiencias")
+        def test_all_but_one_noreduct_OT(self):
+            cls = N_1_of_N_noreduct_OT()
+            ot  = cls(*tags)
+            b   = choice(range(len(tags)))
+            xcepts = ot.all_but(b)
+            self.assertTrue(np.all(np.isin(xcepts,tags)))
+            self.assertFalse(np.all(np.isin(tags[b],xcepts)))
+
+    return
 
 
 if __name__ == "__main__":

@@ -8,7 +8,8 @@ with app.setup:
     from bits import bits, bits_crs, bits_sampler
     from ots  import one_of_two_bytes_OT as OT
     from hashlib import shake_256
-    import numpy as np
+    import numpy  as np
+    import galois as ga
 
     from config_nb import config
     from os import urandom
