@@ -1,0 +1,45 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.4",
+    "script_metadata_hash": "96c65987ce361657ab87f891e81b0054"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "1e05dd511a01f7e2c22bc8e4199fdcfe",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "NofU",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "c64f2732d3d39163c2aa8d7e1f63e8ca",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "e2b2f4f8d01f9a25fb04b308ee239b91",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "c426a7414d61a38ccec2c45c24b6727b",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "16953ef3d2c7e1fa4b46a9c7dd87e6aa",
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

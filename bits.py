@@ -2,7 +2,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "galois==0.4.10",
-#     "marimo>=0.19.10",
+#     "marimo>=0.23.2",
 #     "numpy==2.3.5",
 #     "pytest==9.0.2",
 #     "pyzmq>=27.1.0",
@@ -13,7 +13,7 @@
 
 import marimo
 
-__generated_with = "0.23.1"
+__generated_with = "0.23.2"
 app = marimo.App(width="medium", auto_download=["ipynb"])
 
 with app.setup:
@@ -22,9 +22,10 @@ with app.setup:
     from math import log2, floor
     from collections.abc import Iterable
     from random import choice
-    from hashlib import shake_256
+    from hashlib import shake_256, sha3_224
+
     from os import urandom
-    from config_nb import config
+    from config import config
 
     import unittest
 
@@ -120,9 +121,8 @@ class bits(np.ndarray):
     def tobytes(self):
         return self.lift().tobytes().strip(b'\x00')
 
-    def hash(self):
-        hash = shake_256(self.tobytes())
-        return hash.digest(N)
+    def hash(self, l=24):
+        return sha3_224(self.tobytes()).digest()
 
 
     def add(self, other):

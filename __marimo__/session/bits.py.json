@@ -1,0 +1,39 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.2",
+    "script_metadata_hash": "e17bf2776fa9ba9353fcf7c63651cc3e"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "7a13d0cba2cf236f2ddd8db355cf697a",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "aee91033dad5e1755f6c5afc8ceccc44",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "05383105a451e5b6820584596e32f4b0",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "916e865dcb6d3dde990dde4a78c88b19",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "3909e052c64188760ef69ea011cb15e7",
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

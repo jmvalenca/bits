@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.21.1"
+__generated_with = "0.20.2"
 app = marimo.App()
 
 with app.setup:
@@ -11,18 +11,19 @@ with app.setup:
     import numpy  as np
     import galois as ga
 
-    from config_nb import config
+    from config import config, config_VOLE
     from os import urandom
     from random import choice
 
     params = config().__dict__
+    params_VOLE = config_VOLE().__dict__
     globals().update(params)
 
     zero = bits([0])
     one  = bits([255])
 
-    n_tags = params['n_tags']
-    tsize  = params['tsize']
+    n_tags = params_VOLE['n_tags']
+    tsize  = params_VOLE['t_size']
     # tests
     import unittest
 
@@ -64,8 +65,6 @@ class POL(object):
 
 @app.function
 def VOLE_dv():
-    tag_size = params['tsize']
-
     class Prover(object):
         def __init__(self, x : np.ndarray):
             self._x = x
@@ -127,7 +126,7 @@ def VOLE_dv():
 @app.class_definition
 class Test_VOLE(unittest.TestCase):
 
-    @unittest.skip("_")
+#    @unittest.skip("_")
     def test_pol(self):
         p = POL()
         x = bits(urandom(n_tags//8))

@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.23.1"
+__generated_with = "0.23.2"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -51,6 +51,7 @@ class config:
 @dataclass
 class config_VOLE:
     x_size : int = 32        # lenght of "x" in bits
+    t_size : int = 16
     n_tags : int = x_size
 
 
@@ -60,6 +61,16 @@ class config_NP:
     N     : int = 32
     msize : int = 16
     ksize : int = 16
+
+
+@app.class_definition
+@dataclass
+class config_MPC:
+    rsize : int = 8   # "rate" em bytes
+    csize : int = 24  # "capacity" em bytes
+    rounds: int = 8   # numero de "rounds" por permutação
+    ksize : int = 16  
+    wsize : int = 2
 
 
 if __name__ == "__main__":

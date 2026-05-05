@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.23.1"
+__generated_with = "0.23.2"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -20,7 +20,7 @@ with app.setup:
     from math import ceil, log2
     from hashlib import shake_256
 
-    from config_nb import config, config_NP
+    from config import config, config_NP
     from os import urandom
     from random import choice
 
