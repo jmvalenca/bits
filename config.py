@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.23.2"
+__generated_with = "0.23.4"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -71,6 +71,7 @@ class config_MPC:
     rounds: int = 8   # numero de "rounds" por permutação
     ksize : int = 16  
     wsize : int = 2
+    iosize: int = 32
 
 
 if __name__ == "__main__":

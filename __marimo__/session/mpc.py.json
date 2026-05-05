@@ -1,45 +1,120 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.23.4",
-    "script_metadata_hash": "96c65987ce361657ab87f891e81b0054"
+    "marimo_version": "0.23.5",
+    "script_metadata_hash": "a87016c68f18a090bc1eda9afe11a057"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "1e05dd511a01f7e2c22bc8e4199fdcfe",
-      "outputs": [],
+      "code_hash": "0703695aec21077a6aafa29acbbd3349",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "[W 260505 12:57:26 compiler:347] pytest is not installed, skipping assertion rewriting\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "37b8f241cfa1ee72e4bb0e24f0874eb1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "NofU",
+      "id": "MJUe",
+      "code_hash": "d2b64365b7e4c1b3496a56910edc286d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "FFIz",
       "code_hash": null,
       "outputs": [],
       "console": []
     },
     {
-      "id": "Hbol",
-      "code_hash": "c64f2732d3d39163c2aa8d7e1f63e8ca",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "MJUe",
-      "code_hash": "e2b2f4f8d01f9a25fb04b308ee239b91",
-      "outputs": [],
-      "console": []
-    },
-    {
       "id": "vblA",
-      "code_hash": "c426a7414d61a38ccec2c45c24b6727b",
-      "outputs": [],
+      "code_hash": "e6f4fb682139371dab7d1fe04b3116e7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "bkHC",
-      "code_hash": "16953ef3d2c7e1fa4b46a9c7dd87e6aa",
-      "outputs": [],
+      "code_hash": "949bfbf476c571dd357b507937c1e02b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "b2137903ab4750dfe7a90c5f29b02f8f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "55fd0ac1256acd8fa0c1fe3b65d4cb04",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "pytest is required pytest is required for reactive testing. Please report to github if you would like a different testing suite supported..\n\n[W 260505 12:57:26 compiler:347] pytest is not installed, skipping assertion rewriting\n",
+          "mimetype": "text/plain"
+        }
+      ]
     }
   ]
 }
