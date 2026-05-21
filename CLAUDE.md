@@ -23,7 +23,7 @@ marimo run bits.py
 marimo edit ots.py
 ```
 
-Dependencies are declared as PEP 735 inline script metadata at the top of each file (`# /// script` blocks). Python >= 3.13 required. Key packages: `numpy`, `galois==0.4.10`, `marimo>=0.23.2`.
+Dependencies are declared as PEP 735 inline script metadata at the top of each file (`# /// script` blocks). Python >= 3.13 required. Key packages: `numpy`, `galois==0.4.10`, `marimo>=0.23.4`.
 
 ## Architecture
 
@@ -60,9 +60,9 @@ Protocol pattern: `Provider` and `Receiver` inner classes exchange messages roun
 
 ### `mpc.py` — 3-party MPC
 
-- `RNG`: deterministic bit generation from a key (used for shared randomness)
-- `shares`: 3-party additive secret sharing over `bits`; `wire` property = XOR of all shares
-- `SBox`: evaluates a non-linear gate using shared multiplication
+- `RNG`: correlated randomness from a shared key; `F(party)` returns a per-gate function whose outputs sum to zero across all 3 parties
+- `share`: a party's local view as `[v_i, mu_i]` (ρ share and masked wire `w+msg`); wire reconstruction requires two views via `share(view_i, view_j)`, which verifies consistency; `mul(other, rho, msg)` uses a preprocessed multiplication triple
+- `SBox(shape, rng)`: selects `m` random input pairs from `n` inputs via `combinations` and multiplies them using `share.mul`
 - `Permutation`: mixing layer combining linear and non-linear steps
 - `Circuit`: sponge-based absorb/squeeze construction for multi-party evaluation
 

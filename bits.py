@@ -13,21 +13,23 @@
 
 import marimo
 
-__generated_with = "0.23.2"
-app = marimo.App(width="medium", auto_download=["ipynb"])
+__generated_with = "0.23.6"
+app = marimo.App(width="medium", auto_download=["html"])
 
 with app.setup:
     import marimo as mo
     import numpy as np
-    from math import log2, floor
+    from math import log2, floor, ceil
     from collections.abc import Iterable
     from random import choice
     from hashlib import shake_256, sha3_224
+    from secrets import token_bytes, randbits
+
 
     from os import urandom
     from config import config
 
-    import unittest
+    import pytest
 
 
     params = config().__dict__
@@ -43,18 +45,21 @@ with app.setup:
 
 @app.class_definition
 class bits(np.ndarray):
-    def __new__(cls, input_array):
-        if isinstance(input_array, bytes) or isinstance(input_array, bytearray):
-            obj = np.frombuffer(input_array, dtype=np.uint8).view(cls)
-        elif isinstance(input_array, np.ndarray):
-            obj = input_array.astype(np.uint8).view(cls)
-        elif isinstance(input_array, Iterable):
-            data = np.stack(input_array).astype(np.uint8)
-            if isinstance(input_array,str) and input_array.isdecimal():
+    def __new__(cls, arg):
+        if isinstance(arg, bytes) or isinstance(arg, bytearray):
+            obj = np.frombuffer(arg, dtype=np.uint8).view(cls)
+        elif isinstance(arg, np.ndarray):
+            obj = arg.astype(np.uint8).view(cls)
+        elif isinstance(arg, Iterable):
+            data = np.stack(arg).astype(np.uint8)
+            if isinstance(arg,str) and arg.isdecimal():
                 data = np.packbits(data)
             obj = data.view(cls)
+        elif isinstance(arg,int):
+            size = ceil(arg.bit_length()/8)
+            obj  = bits(arg.to_bytes(size))
         else:
-            raise ValueError(f"do not knw how to make a bits object from {input_array}")
+            raise ValueError(f"do not knw how to make a bits object from {arg}")
         return obj
 
     def __array_finalize__(self, obj):
@@ -67,6 +72,15 @@ class bits(np.ndarray):
 
     def __repr__(self):
         return np.array_repr(self) 
+
+    def roll(self, shift = None , axis = None):
+        n = self.ndim
+        assert n > 0
+        if shift is None: 
+            shift =  (0,1) + (0,)*(n-2) if n > 1 else 1
+        if axis is None:
+            axis = (0,)*n
+        return np.roll(self,shift,axis).view(bits)
 
 
     def unpack(self):
@@ -118,11 +132,16 @@ class bits(np.ndarray):
 #        return np.array_equal(self, other)
         return np.all(np.array_equiv(self, other))
 
+    @property
     def tobytes(self):
         return self.lift().tobytes().strip(b'\x00')
 
+    @property
+    def toInt(self):
+        return int.from_bytes(self.tobytes)
+
     def hash(self, l=24):
-        return sha3_224(self.tobytes()).digest()
+        return sha3_224(self.tobytes).digest()
 
 
     def add(self, other):
@@ -218,40 +237,44 @@ class bits_crs(object):
 
 
 @app.class_definition
-class Test_bits(unittest.TestCase):
-    @unittest.skip("experiência")
+class Test_bits():
+
+    def test_init(self):
+        u = token_bytes(8)
+        assert u == bits(u).tobytes
+        r = randbits(128)
+        assert r == bits(r).toInt
+
+
     def test_add(self):
         spl=bits_sampler()
         n = 4
         a = spl.secrets(n) 
         b = spl.secrets(n*n).reshape((n,n))
         c = a + b
-        self.assertIsInstance(c, bits)
-        self.assertTrue(np.all([c[i] ==  a + b[i] for i in range(n)]))
+        assert isinstance(c, bits)
+        assert np.all([c[i] ==  a + b[i] for i in range(n)])
 
-    @unittest.skip("experiência")
+
     def test_mul(self):
         spl=bits_sampler()
         n = 4
         a = spl.secrets(n) 
         b = spl.secrets(n*n).reshape((n,n))
         c = a * b
-        self.assertTrue(np.all([c[i] ==  a * b[i] for i in range(n)]))
+        assert np.all([c[i] ==  a * b[i] for i in range(n)])
 
-    @unittest.skip("matmult0")
     def test_matmul_0(self):
         a = bits(urandom(8)).reshape((2,4))
         b = bits(urandom(8)).reshape((4,2))
-        self.assertEqual((a @ b).T , (b.T @ a.T))
+        assert (a @ b).T == (b.T @ a.T)
 
-    @unittest.skip("matmul1")
     def test_matmul_1(self):
         for l in range(2,16):
             m = bits(urandom(2*l*l)).reshape((l,2*l))
             q = (m.T) @ m
             x = bits(urandom(2*l))
-            with self.subTest(l):
-                self.assertEqual(x @ q , q @ x)
+            assert (x @ q) == (q @ x)
 
 
 if __name__ == "__main__":
