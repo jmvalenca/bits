@@ -310,26 +310,44 @@ class Test_shares():
 class Data(object):   # implementation of View for prover and parties
 
 
-    def __init__(self, secret : int , inputs : bytes,   iv : int = 1):     
-        R = RNG(secret*iv)
-        pad        = lambda b, n: b[:n] if len(b) > n else b + b'\x00'*(n-len(b))  
-#        if iv is None: iv = randbits(8*rsize*wsize)
-        self.R     = R
-        self.rate_      = bits(iv.to_bytes(rsize*wsize)).reshape(rsize,wsize)
-        self.capacity_  = bits(secret.to_bytes(csize*wsize)).reshape(csize,wsize)
-        blocs           = math.ceil(len(inputs) /(rsize * wsize))
-        self.inputs_    = bits(pad(inputs, blocs*rsize*wsize)).reshape(blocs,rsize,wsize)
+    def __init__(self, inputs : bytes, iv : int = 2**(rsize*wsize)-1):     
+        pad          = lambda b, n: b[:n] if len(b) > n else b + b'\x00'*(n-len(b)) 
+        self.rate_   = bits(iv.to_bytes(rsize*wsize)).reshape(rsize,wsize)
+        blocs        = math.ceil(len(inputs) /(rsize * wsize))
+        self.inputs_ = bits(pad(inputs, blocs*rsize*wsize)).reshape(blocs,rsize,wsize)
+        self.R       = None
 
-    @property 
+    @property
+    def has_secret(self):
+        return self.R is not None
+
+    @has_secret.setter
+    def has_secret(self, secret):
+        self.R = RNG(secret)
+        self.capacity_  = bits(secret.to_bytes(csize*wsize)).reshape(csize,wsize)
+
     def start(self):
+        assert self.has_secret
         return np.concatenate([self.rate_, self.capacity_]).view(bits)
 
     @property
     def inp(self):
         return self.inputs_
 
+
+    def startp(self, party):
+        assert self.has_secret
+        rate       = [share(self.rate_[i], encap=self.R.FF(party)(-i)) for i in range(rsize)]
+        capacity   = [share(self.capacity_[i], encap=self.R.FF(party)(-i - rsize)) for i in range(csize)]
+        return rate + capacity
+
+    def inpp(self,party):
+        blocs = len(self.inputs_)
+        return [[share(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
+
     @property
-    def starts(self):
+    def starts(self, caller):
+        assert self.has_secret
         rate       = [shares(r) for r in self.rate_]
         capacity   = [shares(s, self.R.F) for s in self.capacity_]
         return rate + capacity
@@ -337,17 +355,7 @@ class Data(object):   # implementation of View for prover and parties
     @property
     def inps(self):
         blocs = len(self.inputs_)
-        return [[shares(self.inputs_[i,j],self.R.F,gate=i*rsize+j) for j in range(rsize)] for i in range(blocs)]
-
-    def startp(self, party):
-        rate       = [share(self.rate_[i], encap=self.R.FF(party)(i)) for i in range(rsize)]
-        capacity   = [shares(self.capacity_[i], encap=self.R.FF(party)(i + rsize)) for i in range(csize)]
-        return rate + capacity
-
-    def inpp(self,party):
-        blocs = len(self.inputs_)
-        return [[share(self.inputs_[i,j], encap=self.R.FF(party)(i*rsize + j)) for j in range(rsize)] \
-                for i in range(blocs)]
+        return [[shares(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
 
 
 @app.class_definition(hide_code=True)
@@ -466,7 +474,7 @@ class Permutation(object):
         return rate + capacity , msgs
 
 
-@app.class_definition(hide_code=True)
+@app.class_definition
 class Test_Permutation():
     def test_evals(self):
         R = RNG(); F = R.F ; master = R.master
@@ -490,12 +498,34 @@ class Circuit(object):
     def __init__(self, key : bytes):
         R = RNG(key)
         self._Perm = Permutation(R.master) 
+        self._data = None
+        self._outs = None
 
     @property
     def Perm(self):
         return self._Perm
 
-    def eval(self, start, inps):
+    @property
+    def data(self):
+        return self._data
+
+    @data.setter
+    def data(self, _data_):
+        self._data = _data_
+
+    @property
+    def outs(self):
+        return self._outs
+
+    @outs.setter
+    def outs(self, cmd):
+        match cmd:
+            case 's':  ## shares
+                self._outs = self.evals()  
+            case _:
+                self._outs = self.eval()
+
+    def _eval(self, start, inps):
         state = self.Perm.eval(start)
         # sponge absorb
         for inp in inps:
@@ -507,7 +537,27 @@ class Circuit(object):
             state[rsize + k] = start[rsize + k] + state[rsize + k]
         return state[rsize:]
 
-    def evals(self, start, inps):
+    def eval(self):
+        assert self.data is not None, f"self.data missing"
+        return self._eval(self.data.start, self.data.inp)
+
+
+    def _evalp(self, start, inps, f, msgs):
+        msgs_ = np.split(bits(msgs), 1+len(inps))
+        state = self.Perm.eval(start, f, msgs_[0])
+        for (inp, msg) in zip(inps, msgs_[1:]):
+            for k in range(rsize):
+                state[k] = state[k].view(share) + inp[k].view(share)
+            state = self.Perm.eval(state, f , msg)
+        for k in range(csize):
+            state[rsize + k] = start[rsize + k].view(share) + state[rsize + k].view(share)
+        return state[rsize:]
+
+    def evalp(self,party, msgs):
+        assert self.data is not None, f"self.data missing"
+        return self._evalp(self.data.startp(party), self.data.inpp(party), self.data.R.F(party), msgs)
+
+    def _evals(self, start, inps):
         state, msgs = self.Perm.evals(start)
         # sponge absorb
         for inp in inps:
@@ -520,16 +570,9 @@ class Circuit(object):
             state[rsize + k] = start[rsize + k].view(shares) + state[rsize + k].view(shares)
         return state[rsize:], msgs
 
-    def evalp(self, start, inps, f, msgs):
-        msgs_ = np.split(bits(msgs), 1+len(inps))
-        state = self.Perm.eval(start, f, msgs_[0])
-        for (inp, msg) in zip(inps, msgs_[1:]):
-            for k in range(rsize):
-                state[k] = state[k].view(share) + inp[k].view(share)
-            state = self.Perm.eval(state, f , msg)
-        for k in range(csize):
-            state[rsize + k] = start[rsize + k].view(share) + state[rsize + k].view(share)
-        return state[rsize:]
+    def evals(self):
+        assert self.data is not None, f"self.data missing"
+        return self._evals(self.data.starts, self.data.inps)
 
 
 @app.class_definition
@@ -537,47 +580,66 @@ class Test_Circuit():
     pass
 
 
-@app.function
-def mpc_in_the_head():
-
-    class Prover(object):
-        def __init__(self, secret):
-            pass
-        def Committ(self,pk,sk):
-            pass 
-        def Prove(self,c):
-            pass
-
-    class Verifier(object):
-        def __init__(self):
-            pass
-        def Challenge(self):
-            pass
-
-    class __main__(object):
-        def __init__(self, c_key:bytes, inputs : bytes):
-            self.C  = Circuit(int.from_bytes(c_key))
-            self._inps =  inputs
-            self._outs =  None
-            self._iv   = 0
-        def run(self, secret):
-            self._iv += 1
-            data = Data(secret, self._inps, self._iv)
-            self._outs = self.C.eval(data.start, data.inp) 
+@app.cell
+def _():
+    return
 
 
-    return __main__
+@app.cell
+def _(ctr):
+    def mpc_in_the_head():
+
+        class Prover(object):
+            def __init__(self, circuit):
+                self.circuit = circuit
+            def Committ(self):
+                pass 
+            def Prove(self,c):
+                pass
+        class Verifier(object):
+            def __init__(self, inputs):
+                pass
+            def Challenge(self):
+                pass
+            def Verify(self):
+                pass
 
 
-@app.class_definition
-class Test_mpc_in_the_head():
-    def test_init(self):
-        c_key = token_bytes(ksize)
-        secret = randbits(2*ksize)
-        blocs  = 4
-        inputs = token_bytes(blocs*rsize*wsize)
-        mpc = mpc_in_the_head()(c_key, inputs)
-        mpc.run(secret)
+        class __main__(object):
+            def __init__(self, key : bytes):
+                self.circuit  = Circuit(int.from_bytes(key))
+                self.ctr   = 0
+
+            def run(self, secret, inputs):
+                self.ctr += 1
+                self.circuit.data = Data(secret, inputs, ctr)
+                outputs = self.circuit.eval()
+                prover = Prover(self.circuit)
+
+
+
+        return __main__
+
+    return (mpc_in_the_head,)
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _(mpc_in_the_head):
+    class Test_mpc_in_the_head():
+        def test_init(self):
+            key = token_bytes(ksize)
+            secret = randbits(2*ksize)
+            blocs  = 4
+            inputs = token_bytes(blocs*rsize*wsize)
+            mpc = mpc_in_the_head()(key)
+            mpc.run(secret, inputs)
+
+    return
 
 
 if __name__ == "__main__":
