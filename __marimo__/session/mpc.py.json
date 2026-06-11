@@ -1,13 +1,13 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.23.8",
+    "marimo_version": "0.23.9",
     "script_metadata_hash": "7dca0a449a8e99618b672a9a9b03fb12"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "32c6c351f4a996155a3c235b5c8dab50",
+      "code_hash": "338ce532201b6a7e333598a9908ef8e0",
       "outputs": [],
       "console": []
     },
@@ -26,7 +26,7 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "16dfc768576dd6772c28e93c67c40e74",
+      "code_hash": "60e8ac6f12fdf78e236cd0e46bd6af53",
       "outputs": [],
       "console": []
     },
@@ -38,7 +38,7 @@
     },
     {
       "id": "bkHC",
-      "code_hash": "312f346d90a441d1052f21450824681a",
+      "code_hash": "f3eb8b5766bc473480cc9414494e8516",
       "outputs": [],
       "console": []
     },
@@ -49,61 +49,61 @@
       "console": []
     },
     {
-      "id": "SFPL",
+      "id": "PKri",
       "code_hash": "344d22075c71b59c25ce3648e78e6a85",
       "outputs": [],
       "console": []
     },
     {
-      "id": "BYtC",
+      "id": "Xref",
       "code_hash": "11b5439009a90a4d7e0d8e2860394373",
       "outputs": [],
       "console": []
     },
     {
-      "id": "RGSE",
+      "id": "SFPL",
       "code_hash": "a1a299fd8146ae23d0040dbc0efbdd24",
       "outputs": [],
       "console": []
     },
     {
-      "id": "Kclp",
+      "id": "BYtC",
       "code_hash": "85f53db6e6dc5692926aae10fd9b1964",
       "outputs": [],
       "console": []
     },
     {
-      "id": "emfo",
+      "id": "RGSE",
       "code_hash": "5150abf764c468d289f120075ed7c286",
       "outputs": [],
       "console": []
     },
     {
-      "id": "Hstk",
+      "id": "Kclp",
       "code_hash": "5aca28eb3123eee32c11168b0c58bcaa",
       "outputs": [],
       "console": []
     },
     {
-      "id": "nWHF",
+      "id": "emfo",
       "code_hash": "e83ff014d0fadaa133abf4a3eb93ef6a",
       "outputs": [],
       "console": []
     },
     {
-      "id": "iLit",
+      "id": "Hstk",
       "code_hash": "fe8505928629ea3c6f4c0164053d8262",
       "outputs": [],
       "console": []
     },
     {
-      "id": "ZHCJ",
+      "id": "nWHF",
       "code_hash": "961c597892c121c5f8003ef28c06d495",
       "outputs": [],
       "console": []
     },
     {
-      "id": "ROlb",
+      "id": "iLit",
       "code_hash": "05ed46989807913a5f602a8f3aeb85c5",
       "outputs": [],
       "console": []
