@@ -45,14 +45,6 @@ with app.setup:
         return blocs + [l[-rem:]] if rem > 0 else blocs
 
 
-@app.cell
-def _():
-    l = range(15)
-    isinstance(l, Collection)
-    l[0]
-    return
-
-
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
@@ -309,16 +301,12 @@ class Data(object):   # implementation of View for prover and parties
 
     @property
     def starts(self):
-        assert self.has_rng
-        return self.start_shares
-
-    @starts.setter
-    def starts(self, rng):
-        if rng is None:
+        if self.start_shares is None:
             rng = self.rng
-        rate       = [shares(r) for r in self.rate_]
-        capacity   = [shares(s, rng=rng) for s in self.capacity_]
-        self.start_shares =  rate + capacity
+            rate       = [shares(r) for r in self.rate_]
+            capacity   = [shares(s, rng=rng) for s in self.capacity_]
+            self.start_shares =  rate + capacity
+        return self.start_shares
 
     @property
     def inps(self):
@@ -338,10 +326,9 @@ class Data(object):   # implementation of View for prover and parties
 @app.class_definition
 class Test_data():
     def test_init(self):
-        secret = randbits(csize*wsize) ; inputs = token_bytes(rounds * rsize * wsize)
+        inputs = token_bytes(rounds * rsize * wsize)
         data = Data(inputs)
-        data.rng = secret
-        party = np.random.randint(3)
+        data.rng = randbits(csize*wsize)
 
 
 @app.class_definition
@@ -480,7 +467,7 @@ class Circuit(object):
     def Perm(self):
         return self._Perm
 
- 
+
     def eval(self, start, inps):
         state = self.Perm.eval(start)
         # sponge absorb
@@ -496,11 +483,11 @@ class Circuit(object):
 
     def evalp(self, start, inps, msgs):
         msgs_ = chunks(msgs, 1+len(inps))
-        state = self.Perm.eval(start, msgs_[0])
+        state = self.Perm.evalp(start, msgs_[0])
         for (inp, msg) in zip(inps, msgs_[1:]):
             for k in range(rsize):
                 state[k] = state[k].view(share) + inp[k].view(share)
-            state = self.Perm.eval(state, msg)
+            state = self.Perm.evalp(state, msg)
         for k in range(csize):
             state[rsize + k] = start[rsize + k].view(share) + state[rsize + k].view(share)
         return state[rsize:]
@@ -523,17 +510,21 @@ class Circuit(object):
 @app.class_definition
 class Test_Circuit():
     def test_evals_evalp(self):
-        R = RNG()
-        P = Circuit(randbits(8*ksize))
-        xs   = [wrand() for _ in range(iosize)]
-        inps = [shares(x, R) for x in xs]
-        outs, msgs = P.evals(inps,inps, R)
+
+        secret = randbits(csize*wsize) ; inputs = token_bytes(rounds * rsize * wsize)
+        data = Data(inputs)
+        data.rng = secret
+        R = data.rng
+
+        C = Circuit(randbits(8*ksize))
+        inputs = token_bytes(16*rsize)
+
+        outs, msgs = C.evals(data.starts,data.inps, R)
 
         for party in range(3):
-            msg = [m[party] for m in msgs]
-            out = [o.share(party) for o in outs]
-            inp = [i.share(party) for i in inps]
-            out_= P.evalp(inp,inp, msg)
+            msg   = [m[party] for m in msgs]
+            out   = [o.share(party) for o in outs]
+            out_  = C.evalp(data.startp(party),data.inpp(party), msg)
 
             assert out == out_
 
@@ -578,7 +569,7 @@ def _(ctr):
 
         return __main__
 
-    return (mpc_in_the_head,)
+    return
 
 
 @app.cell
@@ -586,18 +577,9 @@ def _():
     return
 
 
-@app.cell
-def _(mpc_in_the_head):
-    class Test_mpc_in_the_head():
-        def test_init(self):
-            key = token_bytes(ksize)
-            secret = randbits(2*ksize)
-            blocs  = 4
-            inputs = token_bytes(blocs*rsize*wsize)
-            mpc = mpc_in_the_head()(key)
-            mpc.run(secret, inputs)
-
-    return
+@app.class_definition
+class Test_mpc_in_the_head():
+    pass
 
 
 if __name__ == "__main__":
