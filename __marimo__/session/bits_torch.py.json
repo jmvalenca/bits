@@ -1,0 +1,120 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.9",
+    "script_metadata_hash": "c316e87fa182fd3211791d215f27e3f3"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "de98ed8e176dc57274418835c99d4792",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "574aeac9d93c86c2d912fefb12c572f2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "1969e93809d6cebe23c6bdb9ebe824db",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "8939868d50a7b6ff46ebfddcfafae3b8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "1521ad0ed4ddf3fac9292ff18bab1346",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "c0e6dd3346480b76c48e6880ec1e2f25",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "6d77db0e8c831189639f5cf317eb157b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "904c5bcc5a7e50c93fb05b3bee6ed08a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                    [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m bits_torch.py::Test_bits::test_init\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m bits_torch.py::Test_bits::test_add\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m bits_torch.py::Test_bits::test_mul\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m bits_torch.py::Test_bits::test_matmul_0\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m bits_torch.py::Test_bits::test_matmul_1\n\nSummary:\nTotal: 5, Passed: 5, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    }
+  ]
+}

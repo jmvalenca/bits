@@ -7,8 +7,28 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "338ce532201b6a7e333598a9908ef8e0",
-      "outputs": [],
+      "code_hash": "3bd397b2c30479d77bcd7aa1844e215d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "GbWm",
+      "code_hash": "f86200f6ae5c418bbc791c89319a9a54",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>0</pre>"
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -26,87 +46,306 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "60e8ac6f12fdf78e236cd0e46bd6af53",
-      "outputs": [],
+      "code_hash": "e7639238617c7532f2313382953f4a5a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "vblA",
-      "code_hash": "a5fc6c70b7fdf26ea1e308a88ade33b9",
-      "outputs": [],
-      "console": []
+      "code_hash": "83a22c27534487a6d977b7f639548517",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                      [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_types\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_f\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_encaps\n\nSummary:\nTotal: 3, Passed: 3, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "bkHC",
-      "code_hash": "f3eb8b5766bc473480cc9414494e8516",
-      "outputs": [],
+      "code_hash": "1e332392709da86f0621373fdf4ed657",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "lEQa",
-      "code_hash": "2b6737a8bfcd540c64ca55b1571d6090",
-      "outputs": [],
+      "code_hash": "a4c67e29196181b8b5cdcad970c737ba",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "PKri",
-      "code_hash": "344d22075c71b59c25ce3648e78e6a85",
-      "outputs": [],
-      "console": []
+      "code_hash": "07cf56daeac10e1ff95e2097b3d3436b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_share::test_1wire\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "Xref",
-      "code_hash": "11b5439009a90a4d7e0d8e2860394373",
-      "outputs": [],
+      "code_hash": "72f958a5b14bf47ff6e05a362b0836e8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "SFPL",
-      "code_hash": "a1a299fd8146ae23d0040dbc0efbdd24",
-      "outputs": [],
-      "console": []
+      "code_hash": "1fad24d0d41d18d419fff3fba57ecaed",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_shares::test_wire_add\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_shares::test_mult0\n\nSummary:\nTotal: 2, Passed: 2, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "BYtC",
-      "code_hash": "85f53db6e6dc5692926aae10fd9b1964",
-      "outputs": [],
+      "code_hash": "84ef37802d33ef8d06405ad816938036",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "RGSE",
-      "code_hash": "5150abf764c468d289f120075ed7c286",
-      "outputs": [],
-      "console": []
+      "code_hash": "315fe62b44e8527524d06466c3fabfa6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_data::test_init\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "Kclp",
-      "code_hash": "5aca28eb3123eee32c11168b0c58bcaa",
-      "outputs": [],
+      "code_hash": "f1a0648adcfd40df09a602aa503f9cbb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "emfo",
-      "code_hash": "e83ff014d0fadaa133abf4a3eb93ef6a",
-      "outputs": [],
-      "console": []
+      "code_hash": "3e2dbeb0c95f181c054b603bafa43cee",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_Sbox::test_evals\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "Hstk",
-      "code_hash": "fe8505928629ea3c6f4c0164053d8262",
-      "outputs": [],
+      "code_hash": "1633f61d1b3fbcf2e91fdd6e2018eac2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "nWHF",
-      "code_hash": "961c597892c121c5f8003ef28c06d495",
-      "outputs": [],
-      "console": []
+      "code_hash": "77c1af6e255f29c306481a0e65024642",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_Permutation::test_evals\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "iLit",
-      "code_hash": "05ed46989807913a5f602a8f3aeb85c5",
-      "outputs": [],
+      "code_hash": "0a9a8bfeae79ac53711cbf77fc94f2b3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "f1bae4f89647a3661ceda48c20a288b8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[31mF\u001b[0m\u001b[31m                                                                        [100%]\u001b[0m\n=================================== FAILURES ===================================\n\u001b[31m\u001b[1m________________________ Test_Circuit.test_evals_evalp _________________________\u001b[0m\n\nself = <__main__.Test_Circuit object at 0x12f612120>\n\n    def test_evals_evalp(self):\n        R = RNG()\n        P = Circuit(randbits(8*ksize))\n        xs   = [wrand() for _ in range(iosize)]\n        inps = [shares(x, R) for x in xs]\n>       outs, msgs = P.evals(inps,inps, R)\n                     ^^^^^^^^^^^^^^^^^^^^^\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:7: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <__main__.Circuit object at 0x12f612270>\nstart = [shares([[[220, 238],\n         [132,  58]],\n\n        [[159,  65],\n         [203, 165]],\n\n        [[147, 113],\n        ... 61, 160]],\n\n        [[ 76,  34],\n         [ 37,  18]],\n\n        [[249, 115],\n         [136, 241]]], dtype=uint8), ...]\ninps = [shares([[[220, 238],\n         [132,  58]],\n\n        [[159,  65],\n         [203, 165]],\n\n        [[147, 113],\n        ... 61, 160]],\n\n        [[ 76,  34],\n         [ 37,  18]],\n\n        [[249, 115],\n         [136, 241]]], dtype=uint8), ...]\nrng = <__main__.RNG object at 0x174750890>\n\n    def evals(self, start, inps, rng):\n        state, msgs = self.Perm.evals(start, rng)\n        # sponge absorb\n        for inp in inps:\n            for k in range(rsize):\n>               state[k] =  state[k].view(shares) + inp[k].view(shares)\n                                                    ^^^^^^\n\u001b[1m\u001b[31mE               IndexError: index 3 is out of bounds for axis 0 with size 3\u001b[0m\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:43: IndexError\n=================================== Overview ===================================\n\nSummary:\nTotal: 1, Passed: 0, Failed: 1, Errors: 0, Skipped: 0\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mFAILED\u001b[0m mpc.py::\u001b[1mTest_Circuit::test_evals_evalp\u001b[0m - IndexError: index 3 is out of bounds for axis 0 with size 3\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "ROlb",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "25703b9ccb4286a6bd7c763791f6b21d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "709d7d5a3751fff37f7f8d743e50519b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[31mF\u001b[0m\u001b[31m                                                                        [100%]\u001b[0m\n=================================== FAILURES ===================================\n\u001b[31m\u001b[1m________________________ Test_mpc_in_the_head.test_init ________________________\u001b[0m\n\nself = <__main__.Test_mpc_in_the_head object at 0x12fbadfd0>\n\n    def test_init(self):\n        key = token_bytes(ksize)\n        secret = randbits(2*ksize)\n        blocs  = 4\n        inputs = token_bytes(blocs*rsize*wsize)\n        mpc = mpc_in_the_head()(key)\n>       mpc.run(secret, inputs)\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <__main__.mpc_in_the_head.<locals>.__main__ object at 0x12fbaea50>\nsecret = 621082616\ninputs = b\"\\x00\\xd0\\xe7\\xf0\\xb9\\t\\xe5_u#\\xcb\\xd6\\x14\\xb5\\xd8\\xcd\\\\}\\xc9\\xc3}G\\xdb\\xe1\\x85\\xbeU\\x914\\xb5\\x94\\x89\\xb9\\x01\\xaa\\xaa\\xe2\\xab\\xf7\\xb5\\xc6d\\xd95 \\t\\xc5;X\\x81U_\\x8a'\\x03\\x97ScJ\\x18\\xff'v\\xd2\"\n\n    def run(self, secret, inputs):\n        self.ctr += 1\n>       self.circuit.data = Data(secret, inputs, ctr)\n                                                 ^^^\n\u001b[1m\u001b[31mE       NameError: name 'ctr' is not defined\u001b[0m\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:26: NameError\n=================================== Overview ===================================\n\nSummary:\nTotal: 1, Passed: 0, Failed: 1, Errors: 0, Skipped: 0\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mFAILED\u001b[0m mpc.py::\u001b[1mTest_mpc_in_the_head::test_init\u001b[0m - NameError: name 'ctr' is not defined\n",
+          "mimetype": "text/plain"
+        }
+      ]
     }
   ]
 }

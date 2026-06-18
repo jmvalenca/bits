@@ -2,7 +2,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "galois==0.4.10",
-#     "marimo>=0.23.2",
+#     "marimo>=0.23.3",
 #     "numpy==2.3.5",
 #     "pytest==9.0.2",
 #     "pyzmq>=27.1.0",
@@ -13,7 +13,7 @@
 
 import marimo
 
-__generated_with = "0.23.6"
+__generated_with = "0.23.9"
 app = marimo.App(width="medium", auto_download=["html"])
 
 with app.setup:
