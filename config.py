@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.23.8"
+__generated_with = "0.23.15"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -66,13 +66,14 @@ class config_NP:
 @app.class_definition
 @dataclass
 class config_MPC:
+    parties:int = 3   # numero de participantes no protocolo MP 
     rsize : int = 8   # "rate" em wires de wsize bytes
     csize : int = 16  # "capacity" em wires de wsize bytes
     rounds: int = 8   # numero de "rounds" por permutação
     ksize : int = 16  # bytes por cada seed
     wsize : int = 2   # bytes por wire
     iosize: int = 24
-    sessions: int = 32  #
+    sessions: int = 32
 
 
 if __name__ == "__main__":

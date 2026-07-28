@@ -1,13 +1,13 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.23.15",
+    "marimo_version": "0.23.9",
     "script_metadata_hash": "7dca0a449a8e99618b672a9a9b03fb12"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "da21af367991352a63a9c92336781226",
+      "code_hash": "3bd397b2c30479d77bcd7aa1844e215d",
       "outputs": [
         {
           "type": "data",
@@ -33,7 +33,7 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "6e2c1c9b53513d35d55cf61ce3bb697c",
+      "code_hash": "e7639238617c7532f2313382953f4a5a",
       "outputs": [
         {
           "type": "data",
@@ -46,7 +46,7 @@
     },
     {
       "id": "vblA",
-      "code_hash": "f28eb728aa22dbb81b755832c5bd8d6f",
+      "code_hash": "83a22c27534487a6d977b7f639548517",
       "outputs": [
         {
           "type": "data",
@@ -59,7 +59,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                     [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_types\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_rho\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_scr\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_encaps\n\nSummary:\nTotal: 4, Passed: 4, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                      [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_types\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_f\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_encaps\n\nSummary:\nTotal: 3, Passed: 3, Failed: 0, Errors: 0, Skipped: 0\n",
           "mimetype": "text/plain"
         }
       ]
@@ -79,7 +79,7 @@
     },
     {
       "id": "lEQa",
-      "code_hash": "a530be74044fcd10efafe92ccd10d7ce",
+      "code_hash": "a4c67e29196181b8b5cdcad970c737ba",
       "outputs": [
         {
           "type": "data",
@@ -92,7 +92,7 @@
     },
     {
       "id": "PKri",
-      "code_hash": "cf6a7ae3426f322be88cfc1bd61bb560",
+      "code_hash": "07cf56daeac10e1ff95e2097b3d3436b",
       "outputs": [
         {
           "type": "data",
@@ -112,7 +112,7 @@
     },
     {
       "id": "Xref",
-      "code_hash": "997347bc5f0dea6525401e5d0396e184",
+      "code_hash": "72f958a5b14bf47ff6e05a362b0836e8",
       "outputs": [
         {
           "type": "data",
@@ -125,7 +125,7 @@
     },
     {
       "id": "SFPL",
-      "code_hash": "d2a7473aca6c8b693cc47bad297b3065",
+      "code_hash": "1fad24d0d41d18d419fff3fba57ecaed",
       "outputs": [
         {
           "type": "data",
@@ -145,7 +145,7 @@
     },
     {
       "id": "BYtC",
-      "code_hash": "7d997de092d795dae8a06a6cddd62da8",
+      "code_hash": "22e8e3c69e92b122e28cdc23f79bda61",
       "outputs": [
         {
           "type": "data",
@@ -178,7 +178,7 @@
     },
     {
       "id": "Kclp",
-      "code_hash": "c99468ddf429696147a3aa03b5e98baf",
+      "code_hash": "f1a0648adcfd40df09a602aa503f9cbb",
       "outputs": [
         {
           "type": "data",
@@ -191,7 +191,7 @@
     },
     {
       "id": "emfo",
-      "code_hash": "46867c4e0bc843fd9ef97dea8e72d4b5",
+      "code_hash": "3e2dbeb0c95f181c054b603bafa43cee",
       "outputs": [
         {
           "type": "data",
@@ -224,7 +224,7 @@
     },
     {
       "id": "nWHF",
-      "code_hash": "f365d335caaf0ce9a8ce3d967946dbe5",
+      "code_hash": "77c1af6e255f29c306481a0e65024642",
       "outputs": [
         {
           "type": "data",
@@ -244,7 +244,7 @@
     },
     {
       "id": "iLit",
-      "code_hash": "9371a1b1a8a1c871849bf2691bbca57e",
+      "code_hash": "467fd4b2b2802534b100fdde599c9ba0",
       "outputs": [
         {
           "type": "data",
@@ -257,7 +257,7 @@
     },
     {
       "id": "ZHCJ",
-      "code_hash": "4670c6b0042b7dea9089d2ec577acdff",
+      "code_hash": "83deee8b24e378bbaae241bfe9fa2b9c",
       "outputs": [
         {
           "type": "data",
@@ -270,14 +270,14 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_Circuit::test_evals_evalp\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[31mF\u001b[0m\u001b[31m                                                                        [100%]\u001b[0m\n=================================== FAILURES ===================================\n\u001b[31m\u001b[1m________________________ Test_Circuit.test_evals_evalp _________________________\u001b[0m\n\nself = <__main__.Test_Circuit object at 0x1111ed2b0>\n\n    def test_evals_evalp(self):\n    \n        secret = randbits(csize*wsize) ; inputs = token_bytes(rounds * rsize * wsize)\n        data = Data(inputs)\n        data.rng = secret\n        R = data.rng\n    \n        pk = {'circuit' : randbits(8*ksize), 'inputs' : data.inp , 'outputs' : None}\n>       C = Circuit(pk.circuit)\n                    ^^^^^^^^^^\n\u001b[1m\u001b[31mE       AttributeError: 'dict' object has no attribute 'circuit'\u001b[0m\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:10: AttributeError\n=================================== Overview ===================================\n\nSummary:\nTotal: 1, Passed: 0, Failed: 1, Errors: 0, Skipped: 0\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mFAILED\u001b[0m mpc.py::\u001b[1mTest_Circuit::test_evals_evalp\u001b[0m - AttributeError: 'dict' object has no attribute 'circuit'\n",
           "mimetype": "text/plain"
         }
       ]
     },
     {
       "id": "ROlb",
-      "code_hash": "f31aa5ae865b36a8c6d77201253c71db",
+      "code_hash": null,
       "outputs": [
         {
           "type": "data",
@@ -290,6 +290,32 @@
     },
     {
       "id": "qnkX",
+      "code_hash": "25703b9ccb4286a6bd7c763791f6b21d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
       "code_hash": "a00efd04f498c6fccc10f159b4b72460",
       "outputs": [
         {

@@ -1,13 +1,13 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.23.15",
+    "marimo_version": "0.23.10",
     "script_metadata_hash": "7dca0a449a8e99618b672a9a9b03fb12"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "da21af367991352a63a9c92336781226",
+      "code_hash": "3c5c12fc13dea8aeda1dae1aa24b4325",
       "outputs": [
         {
           "type": "data",
@@ -33,7 +33,7 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "6e2c1c9b53513d35d55cf61ce3bb697c",
+      "code_hash": "e7639238617c7532f2313382953f4a5a",
       "outputs": [
         {
           "type": "data",
@@ -46,7 +46,7 @@
     },
     {
       "id": "vblA",
-      "code_hash": "f28eb728aa22dbb81b755832c5bd8d6f",
+      "code_hash": "83a22c27534487a6d977b7f639548517",
       "outputs": [
         {
           "type": "data",
@@ -59,7 +59,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                     [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_types\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_rho\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_scr\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_encaps\n\nSummary:\nTotal: 4, Passed: 4, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                      [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_types\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_f\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_encaps\n\nSummary:\nTotal: 3, Passed: 3, Failed: 0, Errors: 0, Skipped: 0\n",
           "mimetype": "text/plain"
         }
       ]
@@ -79,7 +79,7 @@
     },
     {
       "id": "lEQa",
-      "code_hash": "a530be74044fcd10efafe92ccd10d7ce",
+      "code_hash": "a4c67e29196181b8b5cdcad970c737ba",
       "outputs": [
         {
           "type": "data",
@@ -92,7 +92,7 @@
     },
     {
       "id": "PKri",
-      "code_hash": "cf6a7ae3426f322be88cfc1bd61bb560",
+      "code_hash": "07cf56daeac10e1ff95e2097b3d3436b",
       "outputs": [
         {
           "type": "data",
@@ -112,7 +112,7 @@
     },
     {
       "id": "Xref",
-      "code_hash": "997347bc5f0dea6525401e5d0396e184",
+      "code_hash": "72f958a5b14bf47ff6e05a362b0836e8",
       "outputs": [
         {
           "type": "data",
@@ -125,7 +125,7 @@
     },
     {
       "id": "SFPL",
-      "code_hash": "d2a7473aca6c8b693cc47bad297b3065",
+      "code_hash": "1fad24d0d41d18d419fff3fba57ecaed",
       "outputs": [
         {
           "type": "data",
@@ -145,7 +145,7 @@
     },
     {
       "id": "BYtC",
-      "code_hash": "7d997de092d795dae8a06a6cddd62da8",
+      "code_hash": "7a9bdd6e9eff2cef4a51a5af2d54b189",
       "outputs": [
         {
           "type": "data",
@@ -171,14 +171,14 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_data::test_init\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[31mF\u001b[0m\u001b[31m                                                                        [100%]\u001b[0m\n=================================== FAILURES ===================================\n\u001b[31m\u001b[1m_____________________________ Test_data.test_init ______________________________\u001b[0m\n\nself = <__main__.Test_data object at 0x135b64830>\n\n    def test_init(self):\n        inputs = token_bytes(rounds * rsize * wsize)\n        data = Data(inputs)\n>       data.rng = randbits(csize*wsize)\n        ^^^^^^^^\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:5: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <__main__.Data object at 0x135b64980>, seed = 2312199090\n\n    @rng.setter\n    def rng(self, seed : int):\n        if seed < 0:\n            self.R = RNG()\n        else:\n>           self.R = RNG(sedd)\n                         ^^^^\n\u001b[1m\u001b[31mE           NameError: name 'sedd' is not defined\u001b[0m\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:21: NameError\n=================================== Overview ===================================\n\nSummary:\nTotal: 1, Passed: 0, Failed: 1, Errors: 0, Skipped: 0\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mFAILED\u001b[0m mpc.py::\u001b[1mTest_data::test_init\u001b[0m - NameError: name 'sedd' is not defined\n",
           "mimetype": "text/plain"
         }
       ]
     },
     {
       "id": "Kclp",
-      "code_hash": "c99468ddf429696147a3aa03b5e98baf",
+      "code_hash": "f1a0648adcfd40df09a602aa503f9cbb",
       "outputs": [
         {
           "type": "data",
@@ -191,7 +191,7 @@
     },
     {
       "id": "emfo",
-      "code_hash": "46867c4e0bc843fd9ef97dea8e72d4b5",
+      "code_hash": "3e2dbeb0c95f181c054b603bafa43cee",
       "outputs": [
         {
           "type": "data",
@@ -224,7 +224,7 @@
     },
     {
       "id": "nWHF",
-      "code_hash": "f365d335caaf0ce9a8ce3d967946dbe5",
+      "code_hash": "77c1af6e255f29c306481a0e65024642",
       "outputs": [
         {
           "type": "data",
@@ -257,7 +257,7 @@
     },
     {
       "id": "ZHCJ",
-      "code_hash": "4670c6b0042b7dea9089d2ec577acdff",
+      "code_hash": "549d3ce6311c368da4a7235f79f8ff66",
       "outputs": [
         {
           "type": "data",
@@ -270,14 +270,14 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_Circuit::test_evals_evalp\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[31mF\u001b[0m\u001b[31m                                                                        [100%]\u001b[0m\n=================================== FAILURES ===================================\n\u001b[31m\u001b[1m________________________ Test_Circuit.test_evals_evalp _________________________\u001b[0m\n\nself = <__main__.Test_Circuit object at 0x136eb30e0>\n\n    def test_evals_evalp(self):\n        # public information\n        key = randbits(8*ksize)\n        inputs = token_bytes(rounds * rsize * wsize)\n        data = Data(inputs, iv=0)\n        pub_key = (key, data.inpp)\n        # private key\n        secret = randbits(csize*wsize)\n>       data.rng = secret\n        ^^^^^^^^\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:10: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <__main__.Data object at 0x136f7d6d0>, seed = 2184998758\n\n    @rng.setter\n    def rng(self, seed : int):\n        if seed < 0:\n            self.R = RNG()\n        else:\n>           self.R = RNG(sedd)\n                         ^^^^\n\u001b[1m\u001b[31mE           NameError: name 'sedd' is not defined\u001b[0m\n\n\u001b[1m\u001b[31mmarimo://mpc.py#cell_id=cell\u001b[0m:21: NameError\n=================================== Overview ===================================\n\nSummary:\nTotal: 1, Passed: 0, Failed: 1, Errors: 0, Skipped: 0\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mFAILED\u001b[0m mpc.py::\u001b[1mTest_Circuit::test_evals_evalp\u001b[0m - NameError: name 'sedd' is not defined\n",
           "mimetype": "text/plain"
         }
       ]
     },
     {
       "id": "ROlb",
-      "code_hash": "f31aa5ae865b36a8c6d77201253c71db",
+      "code_hash": "bbb216a725e61281e13ca9d9e5359b98",
       "outputs": [
         {
           "type": "data",
@@ -290,6 +290,19 @@
     },
     {
       "id": "qnkX",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
       "code_hash": "a00efd04f498c6fccc10f159b4b72460",
       "outputs": [
         {
