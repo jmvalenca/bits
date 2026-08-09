@@ -1,7 +1,7 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.23.15",
+    "marimo_version": "0.23.16",
     "script_metadata_hash": "7dca0a449a8e99618b672a9a9b03fb12"
   },
   "cells": [
@@ -46,26 +46,6 @@
     },
     {
       "id": "vblA",
-      "code_hash": "f28eb728aa22dbb81b755832c5bd8d6f",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                     [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_types\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_rho\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_scr\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_RNG::test_encaps\n\nSummary:\nTotal: 4, Passed: 4, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "bkHC",
       "code_hash": "1e332392709da86f0621373fdf4ed657",
       "outputs": [
         {
@@ -78,7 +58,7 @@
       "console": []
     },
     {
-      "id": "lEQa",
+      "id": "bkHC",
       "code_hash": "ab93ec5cb83eaaf95cb1a34b4c615131",
       "outputs": [
         {
@@ -91,27 +71,7 @@
       "console": []
     },
     {
-      "id": "PKri",
-      "code_hash": "635e23158c7c4d057bf4dddf8bc5e8f3",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_share::test_1wire\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "Xref",
+      "id": "lEQa",
       "code_hash": "e06c81cb1595476f0d800e2fef9f2649",
       "outputs": [
         {
@@ -124,27 +84,7 @@
       "console": []
     },
     {
-      "id": "SFPL",
-      "code_hash": "393c628776ceb198632f70f46f48d467",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_shares::test_wire_add\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_shares::test_mult0\n\nSummary:\nTotal: 2, Passed: 2, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "BYtC",
+      "id": "PKri",
       "code_hash": "c99468ddf429696147a3aa03b5e98baf",
       "outputs": [
         {
@@ -157,27 +97,7 @@
       "console": []
     },
     {
-      "id": "RGSE",
-      "code_hash": "3f54fe594c0f228af0b6e55c7e9c6b6d",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_Sbox::test_evals\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "Kclp",
+      "id": "Xref",
       "code_hash": "1633f61d1b3fbcf2e91fdd6e2018eac2",
       "outputs": [
         {
@@ -190,27 +110,7 @@
       "console": []
     },
     {
-      "id": "emfo",
-      "code_hash": "c09aca57f7e73a16504f9af5a7a6ed00",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_Permutation::test_evals\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "Hstk",
+      "id": "SFPL",
       "code_hash": "9371a1b1a8a1c871849bf2691bbca57e",
       "outputs": [
         {
@@ -223,7 +123,7 @@
       "console": []
     },
     {
-      "id": "nWHF",
+      "id": "BYtC",
       "code_hash": "f56c07b4fb1555aecd5d56a04882aa67",
       "outputs": [
         {
@@ -236,8 +136,8 @@
       "console": []
     },
     {
-      "id": "jifa",
-      "code_hash": "a0d56fc8cf0b44e1018e76a14db167e8",
+      "id": "RGSE",
+      "code_hash": "1957c12d7781ff7a3d8041bb404aea49",
       "outputs": [
         {
           "type": "data",
@@ -247,79 +147,6 @@
         }
       ],
       "console": []
-    },
-    {
-      "id": "iLit",
-      "code_hash": "b65451ff08ac3c486ce0ba4febc1acd7",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_data::test_start\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "ZHCJ",
-      "code_hash": "06960aa89ceef24a6fe9275bd94d4f2e",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m mpc.py::Test_Circuit::test_evals_evalp\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "ROlb",
-      "code_hash": "f31aa5ae865b36a8c6d77201253c71db",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "qnkX",
-      "code_hash": "a00efd04f498c6fccc10f159b4b72460",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\n=================================== Overview ===================================\n\nSummary:\nTotal: 0, Passed: 0, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
     }
   ]
 }
