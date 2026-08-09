@@ -130,7 +130,7 @@ class share(bits):  # views
 
         if isinstance(data[0], bits) and len(data) == 1 and encap is None:
             obj = bits([wzero , data[0]]).view(cls)
-
+  
         elif isinstance(data[0], bits) and len(data) == 1 and encap is not None:
             if isinstance(encap,bits) and encap.shape == (2,wsize):
                 obj = encap.view(share) + share(data[0])   
@@ -167,9 +167,9 @@ class share(bits):  # views
     def flip(self):
         return np.flip(self, axis=0).view(share)
 
-    def wire(self, other):
+    def wire(self, other, tau = wzero):
         ws = self + other + share(self,other)
-        return (ws[0] + ws[1]).view(bits)
+        return ws[1].view(bits) + tau
 
 
     def add(self,other):
@@ -201,46 +201,50 @@ class Test_share():
         except AssertionError:
             s  = share(a, b)
         assert c == s
-        assert a.wire(b) == x
+        assert c.wire(a) == x
 
 
 @app.class_definition
 class shares(bits):
-    def __new__(cls, x : bits , rng : RNG = None):
+    def __new__(cls, x : bits , rng : RNG = None, tau : bits = wzero):
         if rng is None:
             return np.array([share(x) for _ in range(parties)]).view(cls)
         assert isinstance(rng, RNG)
-        return np.array([share(x, encap=e) for e in rng.encaps]).view(cls)
-
+        obj =  np.array([share(x + tau, encap=e) for e in rng.encaps]).view(cls)
+        obj._tau = tau
+        return obj
 
     def __array_finalize__(self, obj):
         if obj is None: return
-
+        self._tau = getattr(obj, 'tau', wzero)
 
     @property
     def lift(self):
         return self.view(bits)
 
-    """
     @property
     def tau(self):
-        w = self.lift
-        return sum(w[:,0])
+        return self._tau
+
+    @tau.setter
+    def tau(self, value):
+        self._tau = value
 
     def roll(self):
         return np.roll(self,(0,2,0),axis=(0,0,0)).view(shares)
-    """
+
     @property
     def wire(self):
         w = self.lift
 #        return sum(w[:,0]) + sum(w[:,1]) 
-        return sum(w[:,1]) 
+        return sum(w[:,1]) + self.tau
 
     def share(self,party):
         return self[party].view(share)
 
     def add(self, other):
         res =  (self.lift + other.lift).view(shares)
+        res.tau = self.tau + other.tau
         return res
 
     def __add__(self, other):
@@ -249,12 +253,14 @@ class shares(bits):
 
     def multiply(self, other, rng : RNG):
         rho = rng.scr 
-        # rho = rng.rho ; Tau = sum(rho) + (self.wire)*(other.tau) + (other.wire)*(self.tau)
+        # rho = rng.rho
+        Tau = (self.wire)*(other.tau) + (other.wire)*(self.tau) + (self.tau)*(other.tau) 
         this = self.lift ; other_ = other.lift        
         rs   = [rho[i] + this[i,0] * other_[i,0] + this[i,1] * other_[i,1] for i in range(parties)]
         #ms   = [rs[(i+parties-1)%parties] + Tau  for i in range(parties)]
         ms   = [rs[(i+parties-1)%parties] for i in range(parties)]
-        res  = bits([[r + m, r] for (r,m) in zip(rs,ms)]).view(type=shares)
+        res  = bits([[r + m, r] for (r,m) in zip(rs,ms)]).view(shares)
+        res.tau = Tau  
         return res,  [message(rho=r,mu=m) for (r,m) in zip(rho,ms)]
 
 
@@ -264,92 +270,19 @@ class Test_shares():
     def test_wire_add(self):
         R = RNG()
         x_ , y_ , z_ = wrand(), wrand(), wrand()
-        x   = shares(x_, rng=R) ; y = shares(y_, rng=R) ; z = shares(z_,rng=R)
+        x   = shares(x_, rng=R, tau=wrand()) ; y = shares(y_, rng=R, tau=wrand()) ; z = shares(z_,rng=R, tau=wrand())
         assert (x + y).wire == x.wire + y.wire
         assert (x + y) + z == x + (y + z)
-#        assert (x + y).tau == x.tau + y.tau
+        assert (x + y).tau == x.tau + y.tau
 
 #    @pytest.mark.skip(reason="needs debugging")
     def test_mult0(self):
         R = RNG() 
-        x_  = wrand(); y_ = wrand() ; w_ = x_ * y_
-        x   = shares(x_, rng=R) ; y = shares(y_, rng=R) ; w = shares(w_, rng=R)
-        p, _   = x.multiply(y, rng=R)
-        assert p.wire == w.wire
-
-
-@app.class_definition
-class Data(object):   # implementation of View for prover and parties
-
-
-    def __init__(self, inputs : bytes, iv : int = 1):     
-
-        self.rate_   = bits((2**(rsize*wsize) - iv).to_bytes(rsize*wsize)).reshape(rsize,wsize)
-        blocs        = math.ceil(len(inputs) /(rsize * wsize))
-        self.inputs_ = bits(pad(inputs, blocs*rsize*wsize)).reshape(blocs,rsize,wsize)
-        self.R       = RNG()
-        self.capacity_ = None
-        self.start_shares = None
-
-    @property
-    def rng(self):
-        return self.R
-    @rng.setter
-    def rng(self, seed : int):
-        if seed < 0:
-            self.R = RNG()
-        else:
-            self.R = RNG(seed)
-
-    @property
-    def has_secret(self):
-        return self.capacity_ is None
-    @has_secret.setter
-    def has_secret(self, secret : int):
-        if secret <= 0:
-            secret = randbits(8*csize*wsize)
-        self.capacity_  = bits(secret.to_bytes(csize*wsize)).reshape(csize,wsize)
-
-
-    @property
-    def start(self):
-        assert self.capacity_ is not None and self.rate_ is not None
-        return np.concatenate([self.rate_, self.capacity_]).view(bits)
-
-    @property
-    def inp(self):
-        return self.inputs_
-
-    @property
-    def starts(self):
-        if self.start_shares is None:
-            rng = self.rng
-            rate       = [shares(r) for r in self.rate_]
-            capacity   = [shares(s, rng=rng) for s in self.capacity_]
-            self.start_shares =  rate + capacity
-        return self.start_shares
-
-    @property
-    def inps(self):
-        blocs = len(self.inputs_)
-        return [[shares(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
-
-    def startp(self, party):
-        assert self.start_shares is not None
-        return [s.share(party) for s in self.start_shares]
-
-    @property
-    def inpp(self):
-        blocs = len(self.inputs_)
-        return [[share(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
-
-
-@app.class_definition
-class Test_data():
-    def test_init(self):
-        inputs = token_bytes(rounds * rsize * wsize)
-        data = Data(inputs)
-        data.rng = randbits(csize*wsize)
+        x , tx , y , ty = [wrand(), wrand(), wrand(), wrand()]
+        w = x * y
+        xs   = shares(x, rng=R, tau=tx) ; ys = shares(y, rng=R, tau=ty) 
+        p, _   = xs.multiply(ys, rng=R)
+        assert p.wire == w
 
 
 @app.class_definition
@@ -401,12 +334,16 @@ class Test_Sbox():
     def test_evals(self):
         R = RNG() 
         S = SBox((rsize,csize), R.master)
-        party = np.random.randint(parties)
-        for party in range(parties):
-            xs   = [wrand() for _ in range(rsize)]
-            inps = [shares(x, R) for x in xs]
-            outs, msgs = S.evals(inps, R)
+        
+        xs   = [wrand() for _ in range(rsize)]
+        ys   = S.eval(xs)
+        inps = [shares(x, R) for x in xs]
+        outs, msgs = S.evals(inps, R)
 
+        for j in range(csize):
+            assert outs[j].wire == ys[j]
+        
+        for party in range(parties):
             msg = [m[party] for m in msgs] 
             out = [o.share(party) for o in outs]
             inp = [i.share(party) for i in inps]
@@ -455,15 +392,18 @@ class Test_Permutation():
         R = RNG()
         P = Permutation(R.master)
         xs   = [wrand() for _ in range(iosize)]
-        inps = [shares(x, R) for x in xs]
+        ys   = P.eval(bits(xs))
+        inps = [shares(x, R, tau=wrand()) for x in xs]
         outs, msgs = P.evals(inps, R)
+
+        for j in range(iosize):
+            assert outs[j].wire == ys[j]
 
         for party in range(parties):
             msg = [m[party] for m in msgs]
             out = [o.share(party) for o in outs]
             inp = [i.share(party) for i in inps]
             out_= P.evalp(inp, msg)
-
             assert out == out_
 
 
@@ -523,6 +463,83 @@ class Circuit(object):
         return state[rsize:], msgs
 
 
+@app.class_definition
+class Data(object):   # implementation of View for prover and parties
+
+
+    def __init__(self, inputs : bytes, iv : int = 0, secret : int = -1):     
+
+        
+        blocs        = math.ceil(len(inputs) /(rsize * wsize))
+        self.inputs_ = bits(pad(inputs, blocs*rsize*wsize)).reshape(blocs,rsize,wsize)
+
+        self.rate_    = bits(iv.to_bytes(rsize*wsize)).reshape(rsize,wsize)
+        if secret <= 0:
+            secret = randbits(8*csize*wsize)
+        self.capacity_ = bits(secret.to_bytes(csize*wsize)).reshape(csize,wsize)
+
+        rate       = [shares(r) for r in self.rate_]
+        self.R     = RNG()
+        capacity   = [shares(s, rng=self.R, tau=wrand()) for s in self.capacity_]
+        self.start_shares =  rate + capacity
+
+    @property
+    def rng(self):
+        return self.R
+    @rng.setter
+    def rng(self, seed : int):
+        if seed < 0:
+            self.R = RNG()
+        else:
+            self.R = RNG(seed)
+
+
+    @property
+    def start(self):
+        return np.concatenate([self.rate_, self.capacity_]).view(bits)
+
+    @property
+    def inp(self):
+        return self.inputs_
+
+    @property
+    def starts(self):
+        return self.start_shares
+
+    @property
+    def inps(self):
+        blocs = len(self.inputs_)
+        return [[shares(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
+
+    def startp(self, party):
+        return [s.share(party) for s in self.start_shares]
+
+    @property
+    def inpp(self):
+        blocs = len(self.inputs_)
+        return [[share(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
+
+
+@app.cell
+def _():
+    inputs = int(0).to_bytes(128)
+    data   = Data(inputs)
+    s = data.start
+
+    return
+
+
+@app.class_definition
+class Test_data():
+    def test_start(self):
+        inputs = int(0).to_bytes(128)
+        data   = Data(inputs)
+        s = data.start; ss = data.starts
+        iosize = rsize + csize
+        for i in range(iosize):
+            assert ss[i].wire == s[i]
+
+
 @app.cell
 def _():
     class Test_Circuit():
@@ -530,11 +547,8 @@ def _():
             # public information
             key = randbits(8*ksize)
             inputs = token_bytes(rounds * rsize * wsize)
-            data = Data(inputs, iv=0)
-            pub_key = (key, data.inpp)
+            data = Data(inputs)
             # private key
-            secret = randbits(csize*wsize)
-            data.has_secret = secret
             R = data.rng
 
             #calculo do commit
@@ -544,7 +558,7 @@ def _():
             #confirmação
             outs, msgs = C.evals(data.starts,data.inps, R)
             assert np.all([commit[i] == outs[i].wire for i in range(csize)])
-
+            taus = [c.tau for c in outs]
 
             #verificação
             for party in range(parties):
@@ -562,7 +576,7 @@ def _():
             # verificação
             out0      = C.evalp(data.startp(c0),data.inpp, msg0)
             out1      = C.evalp(data.startp(c1),data.inpp, msg1)
-            assert np.all([commit[i] == out0[i].wire(out1[i]) for i in range(csize)])
+            assert np.all([commit[i] == out0[i].wire(out1[i], tau=taus[i]) for i in range(csize)])
     #
     return
 
