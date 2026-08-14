@@ -20,6 +20,7 @@ with app.setup:
     from collections.abc import Collection
     from secrets import randbits, token_bytes, choice
     from itertools import combinations
+    from typing    import Any
     from dataclasses import dataclass
     from config import config_MPC
     import math
@@ -35,6 +36,7 @@ with app.setup:
     rsize   : int = params['rsize']
     iosize  : int = params['iosize']
     rounds  : int = params['rounds']
+    sessions: int = params['sessions']
 
     wzero = bits(np.zeros(wsize, dtype=np.uint8))
     wrand = lambda : bits(token_bytes(wsize))
@@ -58,10 +60,14 @@ def _():
 
 @app.class_definition
 class RNG(object):
-    def __init__(self, key : int = None):
-        if key is None: key = randbits(ksize)
-        self._key = key
-        self._master = np.random.default_rng(key)
+    def __init__(self, key : Any = None):
+        if key is None: 
+            self._key = randbits(ksize)
+        elif isinstance(key, bytes):
+            self._key = bits(key)
+        else:
+            self._key = key
+        self._master = np.random.default_rng(self._key)
         self.spawns  = self._master.spawn(parties)
 
 
@@ -93,12 +99,22 @@ class RNG(object):
         rs = self.scr
         return bits([[rs[i], rs[(i+parties-1)%parties]] for i in range(parties)])
 
+    def bytes(self, len : int):
+        return self.master.bytes(len)
+
 
 @app.class_definition
 @dataclass
 class message:
     rho  : bits
     mu   : bits
+
+
+@app.class_definition
+@dataclass
+class view:
+    start : list
+    messages   : list
 
 
 @app.class_definition
@@ -307,10 +323,9 @@ class Permutation(object):
 @app.class_definition
 class Circuit(object):
 
-    def __init__(self, key : bytes):
+    def __init__(self, key : Any):
         self._key = key
-        R = RNG(key)
-        self._Perm = Permutation(R.master) 
+        self._Perm = Permutation(RNG(key).master) 
 
     @property
     def key(self):
@@ -361,92 +376,135 @@ class Circuit(object):
 
 
 @app.class_definition
-class Data(object):   # implementation of View for prover and parties
-
-
-    def __init__(self, inputs : bytes, iv : int = 0, secret : int = -1):     
-
-        
-        blocs        = math.ceil(len(inputs) /(rsize * wsize))
-        self.inputs_ = bits(pad(inputs, blocs*rsize*wsize)).reshape(blocs,rsize,wsize)
-
-        self.rate_    = bits(iv.to_bytes(rsize*wsize)).reshape(rsize,wsize)
-        if secret <= 0:
-            secret = randbits(8*csize*wsize)
-        self.capacity_ = bits(secret.to_bytes(csize*wsize)).reshape(csize,wsize)
-
-        rate       = [shares(r) for r in self.rate_]
-        self.R     = RNG()
-        capacity   = [shares(s, rng=self.R, tau=wrand()) for s in self.capacity_]
-        self.start_shares =  rate + capacity
-
-    @property
-    def rng(self):
-        return self.R
-    @rng.setter
-    def rng(self, seed : int):
-        if seed < 0:
-            self.R = RNG()
-        else:
-            self.R = RNG(seed)
-
-
-    @property
-    def start(self):
-        return np.concatenate([self.rate_, self.capacity_]).view(bits)
+class Inputs(object):
+    def __init__(self, source :  bytes):
+        blocs        = math.ceil(len(source) /(rsize * wsize))
+        self.inputs_ = bits(pad(source, blocs*rsize*wsize)).reshape(blocs,rsize,wsize)
 
     @property
     def inp(self):
         return self.inputs_
 
     @property
-    def starts(self):
-        return self.start_shares
+    def input(self):
+        return self.inputs_
 
     @property
-    def inps(self):
+    def inputs(self):
         blocs = len(self.inputs_)
         return [[shares(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
 
-    def startp(self, party):
-        return [s.share(party) for s in self.start_shares]
-
     @property
-    def inpp(self):
+    def inputp(self):
         blocs = len(self.inputs_)
         return [[share(self.inputs_[i,j]) for j in range(rsize)] for i in range(blocs)]
 
 
+@app.class_definition
+class Data(object):   # implementation of View for prover and parties
+
+
+    def __init__(self, key : bytes, secret : int = -1):     
+
+        self.R = RNG(key)
+        self.rate_    = bits(pad(key, rsize*wsize)).reshape(rsize,wsize)
+        if secret <= 0:
+            secret = randbits(8*csize*wsize)
+        self._secret = secret
+        self.capacity_ = bits(self._secret.to_bytes(csize*wsize)).reshape(csize,wsize)
+
+        rate       = [shares(r) for r in self.rate_]
+        capacity   = [shares(s, rng=self.R, tau=wrand()) for s in self.capacity_]
+        self.start_shares =  rate + capacity
+
+    @property
+    def rng(self):
+        return self.R
+    @property
+    def secret(self):
+        return self._secret
+        
+    @property
+    def start(self):
+        return np.concatenate([self.rate_, self.capacity_]).view(bits)
+
+    @property
+    def starts(self):
+        return self.start_shares
+
+    def startp(self, party):
+        return [s.share(party) for s in self.start_shares]
+
+
 @app.function
 def mpcITH():
+
     class KeyGen(object):
-        def __init__(self):
-            pass
-    
+        def __init__(self, source : bytes, key : int , circuit: int = -1):
+            circuit = circuit if circuit > 0 else randbits(8*ksize)
+            inp     = Inputs(source)
+            data    = Data(key)
+            output  = Circuit(circuit).eval(data.start, inp.input)
+            # Par de chaves
+            self._public_key = {'circuit': circuit, 'source' : source, 'output' : output}
+            self._private_key = {'key' : key, 'secret' : data.secret}
+
+        @property
+        def public_key(self):
+            return self._public_key
+        @property
+        def private_key(self):
+            return self._private_key           
+
     class Prover(object):
         def __init__(self, public_key, private_key):
-            pass
-        def Committ(self):
-            pass 
-        def Prove(self,c):
-            pass
+            data = Data(private_key['key'], private_key['secret'])
+            input  = Inputs(public_key['source']).inputs
+            self.outs, self.msgs = Circuit(public_key['circuit']).evals(data.starts, input, data.rng)
+            self.data = data
+            
+        def Commit(self):
+            return [o.tau  for o in self.outs]
+            
+        def Prove(self,ch):
+            c0,c1 = ch 
+            start = self.data.startp
+            view0 = view(start=start(c0), messages=[m[c0] for m in self.msgs])
+            view1 = view(start=start(c1), messages=[m[c1] for m in self.msgs])
+            return (view0, view1)
 
     class Verifier(object):
         def __init__(self, public_key):
-            pass
+            self.circuit = Circuit(public_key['circuit'])
+            self.input   = Inputs(public_key['source']).inputp
+            self.output  = public_key['output']
+            
         def Challenge(self):
-            pass
-        def Verify(self):
-                        pass
-
+            return choice([(i,(i+1)%parties) for i in range(parties)])
+            
+        def Verify(self, commit, proof):
+            view0, view1 = proof
+            out0  = self.circuit.evalp(view0.start, self.input, view0.messages)
+            out1  = self.circuit.evalp(view1.start, self.input, view1.messages)
+            assert np.all([self.output[i] == out0[i].wire(out1[i], tau=commit[i]) for i in range(csize)])
 
     class __main__(object):
-        def __init__(self, key : bytes, inputs):
-            pass
+        def __init__(self, source, key : int, circuit=-1):
+            circuit = circuit if circuit > 0 else randbits(8*ksize)
+            self.keys = KeyGen(source, key, circuit)
 
+        def run(self):
+            pk = self.keys.public_key ; sk = self.keys.private_key
+            
+            prover = Prover(pk, sk)
+            verifier = Verifier(pk)
+            for _ in range(sessions):
+                commit = prover.Commit()
+                ch     = verifier.Challenge()
+                proof  = prover.Prove(ch)
+                verifier.Verify(commit, proof)
 
-        def run(self, secret, inputs):
-            pass
+    return __main__
 
 
 if __name__ == "__main__":

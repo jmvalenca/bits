@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "marimo>=0.23.16",
+#     "marimo>=0.23.3",
 #     "numpy==2.5.2",
 #     "pytest==9.1.1",
 # ]
@@ -17,7 +17,7 @@ with app.setup:
     from config import config_MPC
     import numpy as np
     import mpc 
-
+    from secrets import randbits, token_bytes, choice
     globals().update(config_MPC().__dict__)
     globals().update(mpc.__dict__)
 
@@ -146,8 +146,7 @@ def _(Permutation, RNG, bits, iosize, parties, shares, wrand):
 def _(Data, csize, rsize):
     class Test_data():
         def test_start(self):
-            inputs = int(0).to_bytes(128)
-            data   = Data(inputs)
+            data   = Data(b'1111')
             s = data.start; ss = data.starts
             iosize = rsize + csize
             for i in range(iosize):
@@ -157,34 +156,28 @@ def _(Data, csize, rsize):
 
 
 @app.cell
-def _(
-    Circuit,
-    Data,
-    choice,
-    csize,
-    ksize,
-    parties,
-    randbits,
-    rounds,
-    rsize,
-    token_bytes,
-    wsize,
-):
+def _(Circuit, Data, Inputs, csize, ksize, parties):
     class Test_Circuit():
         def test_evals_evalp(self):
             # public information
-            key = randbits(8*ksize)
-            inputs = token_bytes(rounds * rsize * wsize)
-            data = Data(inputs)
-            # private key
-            R = data.rng
+            circuit = randbits(8*ksize)
+            key     = token_bytes(ksize)
+            source  = token_bytes(ksize)
+    
+            # pub+private 
+            secret  = randbits(8*ksize)
+            data = Data(key, secret=secret)
+            inp  = Inputs(source)
 
             #calculo do commit
-            C = Circuit(key)
-            commit  = C.eval(data.start, data.inp)
+            C = Circuit(circuit)
+            commit  = C.eval(data.start, inp.input)
+            # Par de chaves
+            public_key = {'data': key, 'circuit': circuit, 'commit' : commit}
+            private_key = secret
 
             #confirmação
-            outs, msgs = C.evals(data.starts,data.inps, R)
+            outs, msgs = C.evals(data.starts, inp.inputs, data.rng)
             assert np.all([commit[i] == outs[i].wire for i in range(csize)])
             taus = [c.tau for c in outs]
 
@@ -192,7 +185,7 @@ def _(
             for party in range(parties):
                 msg   = [m[party] for m in msgs]
                 out   = [o.share(party) for o in outs]
-                out_  = C.evalp(data.startp(party),data.inpp, msg)
+                out_  = C.evalp(data.startp(party), inp.inputp, msg)
                 assert out == out_
 
             #two-party 
@@ -202,16 +195,22 @@ def _(
             msg0      = [m[c0] for m in msgs]
             msg1      = [m[c1] for m in msgs]
             # verificação
-            out0      = C.evalp(data.startp(c0),data.inpp, msg0)
-            out1      = C.evalp(data.startp(c1),data.inpp, msg1)
+            out0      = C.evalp(data.startp(c0), inp.inputp, msg0)
+            out1      = C.evalp(data.startp(c1), inp.inputp, msg1)
             assert np.all([commit[i] == out0[i].wire(out1[i], tau=taus[i]) for i in range(csize)])
     #
     return
 
 
-@app.class_definition
-class Test_mpcITH():
-    pass
+@app.cell
+def Test_mpcITH(mpcITH):
+    class Test_mpcITH():
+        def test_mpc_run(self):
+            key = token_bytes(16); source = token_bytes(16)
+            simulation = mpcITH()(key,source)
+            simulation.run()
+
+    return
 
 
 if __name__ == "__main__":

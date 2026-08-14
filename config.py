@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.23.15"
+__generated_with = "0.23.16"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -73,7 +73,7 @@ class config_MPC:
     ksize : int = 16  # bytes por cada seed
     wsize : int = 2   # bytes por wire
     iosize: int = 24
-    sessions: int = 32
+    sessions: int = 40
 
 
 if __name__ == "__main__":
