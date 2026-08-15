@@ -1,141 +1,184 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.23.15",
+    "marimo_version": "0.23.16",
     "script_metadata_hash": "7dca0a449a8e99618b672a9a9b03fb12"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "3bd397b2c30479d77bcd7aa1844e215d",
-      "outputs": [],
-      "console": []
+      "code_hash": "8f70f70e68ca68ad3b0cf2100b2f9a26",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "'parties'",
+          "traceback": null
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/6r/w2td4nms643cbf_3nhnpxmr00000gn/T/marimo_84262/__marimo__cell_setup_.py&quot;</span>, line <span class=\"m\">13</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">parties</span> <span class=\"p\">:</span> <span class=\"nb\">int</span> <span class=\"o\">=</span> <span class=\"n\">params</span><span class=\"p\">[</span><span class=\"s1\">&#39;parties&#39;</span><span class=\"p\">]</span>\n<span class=\"w\">                    </span><span class=\"pm\">~~~~~~^^^^^^^^^^^</span>\n<span class=\"gr\">KeyError</span>: <span class=\"n\">&#39;parties&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
     },
     {
       "id": "Hbol",
       "code_hash": "df12445891b47c220d7a5c4966a3a303",
       "outputs": [
         {
-          "type": "data",
-          "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"source\">Source</h2>\n<span class=\"paragraph\">Based on the paper \"High-Throughput Semi-Honest Secure Three-Party Computation with an Honest Majority\", Toshinori Araki et al. CCS'16\nThe implementation uses a circuit describing a symmetric cypher with a sponge construction in which every permutation is derived, via a Feistel strucure, from two pseudo-randomly generated sboxes. Thus every party  can build the same circuit from a common random key.</span></span>"
-          }
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
         }
       ],
       "console": []
     },
     {
       "id": "MJUe",
-      "code_hash": "e7639238617c7532f2313382953f4a5a",
-      "outputs": [],
+      "code_hash": "72524a0721e9348a4355e8c654ffb4f5",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "vblA",
-      "code_hash": "83a22c27534487a6d977b7f639548517",
-      "outputs": [],
+      "code_hash": "1e332392709da86f0621373fdf4ed657",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "bkHC",
-      "code_hash": "1e332392709da86f0621373fdf4ed657",
-      "outputs": [],
+      "code_hash": "068cc795671dea09fec770d48a271068",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "lEQa",
-      "code_hash": "a4c67e29196181b8b5cdcad970c737ba",
-      "outputs": [],
+      "code_hash": "67bbba7847f0e3d8c39ea30a1f610e5d",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "PKri",
-      "code_hash": "07cf56daeac10e1ff95e2097b3d3436b",
-      "outputs": [],
+      "code_hash": "91cbd4c479f98029cdf7205e0043eff9",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "Xref",
-      "code_hash": "72f958a5b14bf47ff6e05a362b0836e8",
-      "outputs": [],
+      "code_hash": "ca269f1bf3c2a58a7d67bcfd037aae9e",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "SFPL",
-      "code_hash": "1fad24d0d41d18d419fff3fba57ecaed",
-      "outputs": [],
+      "code_hash": "1633f61d1b3fbcf2e91fdd6e2018eac2",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "BYtC",
-      "code_hash": "22e8e3c69e92b122e28cdc23f79bda61",
-      "outputs": [],
+      "code_hash": "5f92dc03ad52accd06ba299ff61a61a7",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "RGSE",
-      "code_hash": "58d84fbfbfc59778132132c652860172",
-      "outputs": [],
+      "code_hash": "4175773e850ba9880d626a33c90bba44",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "Kclp",
-      "code_hash": "f1a0648adcfd40df09a602aa503f9cbb",
-      "outputs": [],
+      "code_hash": "d933207b1e6adadaa9bc7c7c6979d0cd",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     },
     {
       "id": "emfo",
-      "code_hash": "3e2dbeb0c95f181c054b603bafa43cee",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "Hstk",
-      "code_hash": "1633f61d1b3fbcf2e91fdd6e2018eac2",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "nWHF",
-      "code_hash": "77c1af6e255f29c306481a0e65024642",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "iLit",
-      "code_hash": "467fd4b2b2802534b100fdde599c9ba0",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "ZHCJ",
-      "code_hash": "d0a72b11635fd7c3a7c3c2533d28d3e4",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "ROlb",
-      "code_hash": null,
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "qnkX",
-      "code_hash": "25703b9ccb4286a6bd7c763791f6b21d",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "TqIu",
-      "code_hash": null,
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "Vxnm",
-      "code_hash": "a00efd04f498c6fccc10f159b4b72460",
-      "outputs": [],
+      "code_hash": "0523c6700f18585f9b93d3552cd85f01",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (KeyError): ",
+          "traceback": null
+        }
+      ],
       "console": []
     }
   ]
