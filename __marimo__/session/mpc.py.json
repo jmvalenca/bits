@@ -10,30 +10,23 @@
       "code_hash": "8f70f70e68ca68ad3b0cf2100b2f9a26",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "'parties'",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/6r/w2td4nms643cbf_3nhnpxmr00000gn/T/marimo_84262/__marimo__cell_setup_.py&quot;</span>, line <span class=\"m\">13</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">parties</span> <span class=\"p\">:</span> <span class=\"nb\">int</span> <span class=\"o\">=</span> <span class=\"n\">params</span><span class=\"p\">[</span><span class=\"s1\">&#39;parties&#39;</span><span class=\"p\">]</span>\n<span class=\"w\">                    </span><span class=\"pm\">~~~~~~^^^^^^^^^^^</span>\n<span class=\"gr\">KeyError</span>: <span class=\"n\">&#39;parties&#39;</span>\n</pre></div>\n</span>",
-          "mimetype": "application/vnd.marimo+traceback"
-        }
-      ]
+      "console": []
     },
     {
       "id": "Hbol",
       "code_hash": "df12445891b47c220d7a5c4966a3a303",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"source\">Source</h2>\n<span class=\"paragraph\">Based on the paper \"High-Throughput Semi-Honest Secure Three-Party Computation with an Honest Majority\", Toshinori Araki et al. CCS'16\nThe implementation uses a circuit describing a symmetric cypher with a sponge construction in which every permutation is derived, via a Feistel strucure, from two pseudo-randomly generated sboxes. Thus every party  can build the same circuit from a common random key.</span></span>"
+          }
         }
       ],
       "console": []
@@ -43,10 +36,10 @@
       "code_hash": "72524a0721e9348a4355e8c654ffb4f5",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -56,10 +49,10 @@
       "code_hash": "1e332392709da86f0621373fdf4ed657",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -69,10 +62,10 @@
       "code_hash": "068cc795671dea09fec770d48a271068",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -82,10 +75,10 @@
       "code_hash": "67bbba7847f0e3d8c39ea30a1f610e5d",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -95,10 +88,10 @@
       "code_hash": "91cbd4c479f98029cdf7205e0043eff9",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -108,10 +101,10 @@
       "code_hash": "ca269f1bf3c2a58a7d67bcfd037aae9e",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -121,10 +114,10 @@
       "code_hash": "1633f61d1b3fbcf2e91fdd6e2018eac2",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -134,10 +127,10 @@
       "code_hash": "5f92dc03ad52accd06ba299ff61a61a7",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -147,10 +140,10 @@
       "code_hash": "4175773e850ba9880d626a33c90bba44",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -160,10 +153,10 @@
       "code_hash": "d933207b1e6adadaa9bc7c7c6979d0cd",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -173,10 +166,10 @@
       "code_hash": "0523c6700f18585f9b93d3552cd85f01",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (KeyError): ",
-          "traceback": null
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
