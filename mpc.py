@@ -16,7 +16,6 @@ with app.setup:
     import marimo as mo
     from bits import bits
     import numpy as np
-    from hashlib import shake_256
     from collections.abc import Collection
     from secrets import randbits, token_bytes, choice
     from itertools import combinations
@@ -24,11 +23,8 @@ with app.setup:
     from dataclasses import dataclass
     from config import config_MPC
     import math
-    import pytest
-    import typing
     params = config_MPC().__dict__
 
-    globals().update(params)
     parties : int = params['parties']
     ksize   : int = params['ksize']
     wsize   : int = params['wsize']
@@ -61,7 +57,7 @@ def _():
 @app.class_definition
 class RNG(object):
     def __init__(self, key : Any = None):
-        if key is None: 
+        if key is None:
             self._key = randbits(ksize)
         elif isinstance(key, bytes):
             self._key = bits(key)
@@ -86,16 +82,22 @@ class RNG(object):
 
     @property
     def rho(self):
+        # one independent random wire per party, from that party's own spawned stream
         f = lambda party: bits(self.spawns[party].integers(256,size=wsize,dtype=np.uint8))
         return bits([f(i) for i in range(parties)])
 
     @property
     def scr(self):
+        # each party's value is the sum of two neighbouring rho's, so the values
+        # around the ring sum to zero: this is the correlated randomness used to
+        # blind multiplication-gate outputs without changing their reconstructed sum
         rs = self.rho
         return bits([rs[i]+rs[(i+parties-1)%parties] for i in range(parties)])
 
     @property
     def encaps(self):
+        # per party: (this party's scr, the previous party's scr) - the pair a
+        # share needs to both mask its own wire and verify its neighbour's view
         rs = self.scr
         return bits([[rs[i], rs[(i+parties-1)%parties]] for i in range(parties)])
 
@@ -118,24 +120,27 @@ class view:
 
 
 @app.class_definition
-class share(bits):  # views
+class share(bits):  # a single party's view of a wire: [rho_share, masked_wire]
     def __new__(cls, *data , encap : bits = None):
 
         if isinstance(data[0], bits) and len(data) == 1 and encap is None:
+            # share(w): a plaintext wire lifted to a (trivial) share, no masking
             obj = bits([wzero , data[0]]).view(cls)
-  
+
         elif isinstance(data[0], bits) and len(data) == 1 and encap is not None:
+            # share(w, encap=[rho_i, rho_{i-1}]): mask w with the party's correlated randomness
             if isinstance(encap,bits) and encap.shape == (2,wsize):
-                obj = encap.view(share) + share(data[0])   
+                obj = encap.view(share) + share(data[0])
             else:
                 raise ValueError(f"do not know how to make a shares object from {data,encap}")
 
-        elif isinstance(data[0], bits)  and len(data) == 2:   # restore a partiesa. view a partir de duas views
-#           
-            v_0 = data[0][0].lift ; mu_0 = data[0][1].lift 
-            v_1 = data[1][0].lift ; mu_1 = data[1][1].lift 
+        elif isinstance(data[0], bits)  and len(data) == 2:
+            # share(view_i, view_j): reconstruct a wire from two parties' views and
+            # verify they agree on it (each party's masked wire must match the other's)
+            v_0 = data[0][0].lift ; mu_0 = data[0][1].lift
+            v_1 = data[1][0].lift ; mu_1 = data[1][1].lift
             v_2 = v_0 + v_1
-            w1 = mu_1 + v_0 ; w0 = mu_0 + v_2 
+            w1 = mu_1 + v_0 ; w0 = mu_0 + v_2
             assert w1 == w0 , f"inconsistent shares for the same wire"
             obj = share(w1 , encap = bits([v_2 , v_1]))
 
@@ -151,7 +156,7 @@ class share(bits):  # views
         return np.array_str(self)
 
     def __repr__(self):
-        return np.array_repr(self) 
+        return np.array_repr(self)
 
     @property
     def lift(self):
@@ -172,6 +177,9 @@ class share(bits):  # views
         return self.add(other)
 
     def multiply(self, other , msg : message = None):
+        # local step of a multiplication gate: combine this party's share of a*b
+        # with the preprocessed randomness (msg.rho) and the message received
+        # from the previous party (msg.mu) to produce this party's output share
         if msg is None:
             msg = message(wzero,wzero)
         this = self.lift ; another = other.lift
@@ -183,7 +191,7 @@ class share(bits):  # views
 
 
 @app.class_definition
-class shares(bits):
+class shares(bits):  # all parties' shares of a wire, plus the public mask `tau`
     def __new__(cls, x : bits , rng : RNG = None, tau : bits = wzero):
         if rng is None:
             return np.array([share(x) for _ in range(parties)]).view(cls)
@@ -213,8 +221,8 @@ class shares(bits):
 
     @property
     def wire(self):
+        # the masked wire (mu) held identically by every party, unmasked by tau
         w = self.lift
-#        return sum(w[:,0]) + sum(w[:,1]) 
         return sum(w[:,1]) + self.tau
 
     def share(self,party):
@@ -230,15 +238,18 @@ class shares(bits):
 
 
     def multiply(self, other, rng : RNG):
-        rho = rng.scr 
-        # rho = rng.rho
-        Tau = (self.wire)*(other.tau) + (other.wire)*(self.tau) + (self.tau)*(other.tau) 
-        this = self.lift ; other_ = other.lift        
+        # multiplication triple protocol (Araki et al.): rho is preprocessed
+        # correlated randomness that sums to zero across parties, so each
+        # party's local product-share plus rho reconstructs to a*b once
+        # combined with the mu received from the previous party. Tau tracks
+        # the public mask that must be applied to recover the true wire value.
+        rho = rng.scr
+        Tau = (self.wire)*(other.tau) + (other.wire)*(self.tau) + (self.tau)*(other.tau)
+        this = self.lift ; other_ = other.lift
         rs   = [rho[i] + this[i,0] * other_[i,0] + this[i,1] * other_[i,1] for i in range(parties)]
-        #ms   = [rs[(i+parties-1)%parties] + Tau  for i in range(parties)]
         ms   = [rs[(i+parties-1)%parties] for i in range(parties)]
         res  = bits([[r + m, r] for (r,m) in zip(rs,ms)]).view(shares)
-        res.tau = Tau  
+        res.tau = Tau
         return res,  [message(rho=r,mu=m) for (r,m) in zip(rho,ms)]
 
 
@@ -247,7 +258,7 @@ class SBox(object):
     def __init__(self, shape, master):
         assert isinstance(master, np.random.Generator)
         (n, m) = shape
-        assert n*(n-1) >= 2*m, f"to few inputs or to many outputs"
+        assert n*(n-1) >= 2*m, f"too few inputs or too many outputs"
         all_pairs = list(combinations(range(n),2))
         self._pairs = master.permutation(all_pairs)[:m]
 
@@ -264,24 +275,19 @@ class SBox(object):
         return bits(ys)
 
 
-    def evalp(self, inps, msgs):     
-        # inps é umarray de elementos do tipo share
-#        assert all([isinstance(i,share) for i in inps]), f"every input must be an instance of \"share\"\"
-        gate = 0 ; ys = []
-        for (i,j) in self.pairs:
+    def evalp(self, inps, msgs):
+        ys = []
+        for gate, (i,j) in enumerate(self.pairs):
             y     = inps[i].multiply(inps[j], msgs[gate])
             ys.append(y)
-            gate += 1
         return ys
 
 
     def evals(self, inps, rng):
-#        assert all([isinstance(i,shares) for i in inps]), f"every input must be an instance of \"shares\"\"
-        gate = 0; ys = []; msgs = []
+        ys = []; msgs = []
         for (i,j) in self.pairs:
             y, m = inps[i].multiply(inps[j], rng)
             ys.append(y); msgs.append(m)
-            gate +=1
         return ys, msgs
 
 
@@ -382,10 +388,6 @@ class Inputs(object):
         self.inputs_ = bits(pad(source, blocs*rsize*wsize)).reshape(blocs,rsize,wsize)
 
     @property
-    def inp(self):
-        return self.inputs_
-
-    @property
     def input(self):
         return self.inputs_
 
@@ -445,7 +447,7 @@ def mpcITH():
             inp     = Inputs(source)
             data    = Data(key)
             output  = Circuit(circuit).eval(data.start, inp.input)
-            # Par de chaves
+            # Key pair
             self._public_key = {'circuit': circuit, 'source' : source, 'output' : output}
             self._private_key = {'key' : key, 'secret' : data.secret}
 
