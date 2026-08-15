@@ -2,7 +2,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "marimo>=0.19.10",
-#     "numpy>=2.4.2",
+#     "numpy==2.5.2",
 #     "pyzmq>=27.1.0",
 # ]
 # ///
@@ -72,8 +72,8 @@ class config_MPC:
     rounds: int = 8   # numero de "rounds" por permutação
     ksize : int = 16  # bytes por cada seed
     wsize : int = 2   # bytes por wire
-    iosize: int = 24
-    sessions: int = 40
+    iosize: int = 24  # rsize + csize
+    sessions: int = 50
 
 
 if __name__ == "__main__":

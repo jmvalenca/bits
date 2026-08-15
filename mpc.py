@@ -460,19 +460,24 @@ def mpcITH():
 
     class Prover(object):
         def __init__(self, public_key, private_key):
-            data = Data(private_key['key'], private_key['secret'])
-            input  = Inputs(public_key['source']).inputs
-            self.outs, self.msgs = Circuit(public_key['circuit']).evals(data.starts, input, data.rng)
-            self.data = data
+            self.pk = public_key
+            self.sk = private_key
             
         def Commit(self):
-            return [o.tau  for o in self.outs]
+            data = Data(self.sk['key'], self.sk['secret'])
+            start     = data.starts
+            rng       = data.rng
+            input     = Inputs(self.pk['source']).inputs
+            circuit   = self.pk['circuit']
+            outs, msgs = Circuit(circuit).evals(start, input, rng)
+            self.disclosure = data.startp, msgs
+            return [o.tau  for o in outs]
             
         def Prove(self,ch):
             c0,c1 = ch 
-            start = self.data.startp
-            view0 = view(start=start(c0), messages=[m[c0] for m in self.msgs])
-            view1 = view(start=start(c1), messages=[m[c1] for m in self.msgs])
+            startp, msgs = self.disclosure
+            view0 = view(start=startp(c0), messages=[m[c0] for m in msgs])
+            view1 = view(start=startp(c1), messages=[m[c1] for m in msgs])
             return (view0, view1)
 
     class Verifier(object):
