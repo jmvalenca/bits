@@ -1,0 +1,42 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.24.0",
+    "script_metadata_hash": "5e9f532bb7e0b6994c1a81f60780ee72"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "4ab81e6436c434e068f2801e8e886214",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "158e9a687c7b0f35d1253f85df5ed8a3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                    [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 test_bits.py::Test_bits::test_init\n\u2713 test_bits.py::Test_bits::test_add\n\u2713 test_bits.py::Test_bits::test_mul\n\u2713 test_bits.py::Test_bits::test_matmul_0\n\u2713 test_bits.py::Test_bits::test_matmul_1\n\nSummary:\nTotal: 5, Passed: 5, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    }
+  ]
+}

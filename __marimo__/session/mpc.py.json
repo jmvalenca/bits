@@ -1,21 +1,14 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.23.16",
+    "marimo_version": "0.24.0",
     "script_metadata_hash": "7dca0a449a8e99618b672a9a9b03fb12"
   },
   "cells": [
     {
       "id": "setup",
-      "code_hash": "8f70f70e68ca68ad3b0cf2100b2f9a26",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "46fbc3a75e192c9ac0b4dcfe55a7f677",
+      "outputs": [],
       "console": []
     },
     {
@@ -33,145 +26,68 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "72524a0721e9348a4355e8c654ffb4f5",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "d5c39da3022b6389a9d21a0688b37e3d",
+      "outputs": [],
       "console": []
     },
     {
       "id": "vblA",
       "code_hash": "1e332392709da86f0621373fdf4ed657",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "bkHC",
       "code_hash": "068cc795671dea09fec770d48a271068",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "lEQa",
-      "code_hash": "67bbba7847f0e3d8c39ea30a1f610e5d",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "a7bf11b9a4c102771709793f0c8888ab",
+      "outputs": [],
       "console": []
     },
     {
       "id": "PKri",
-      "code_hash": "91cbd4c479f98029cdf7205e0043eff9",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "dadf221a11ff92a2d163605b2cd789b2",
+      "outputs": [],
       "console": []
     },
     {
       "id": "Xref",
-      "code_hash": "ca269f1bf3c2a58a7d67bcfd037aae9e",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "68e44cfca6265b025342381c259d5ee5",
+      "outputs": [],
       "console": []
     },
     {
       "id": "SFPL",
       "code_hash": "1633f61d1b3fbcf2e91fdd6e2018eac2",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "BYtC",
       "code_hash": "5f92dc03ad52accd06ba299ff61a61a7",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "RGSE",
-      "code_hash": "4175773e850ba9880d626a33c90bba44",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "e7760844bba5c2fa84c1075fdad3d190",
+      "outputs": [],
       "console": []
     },
     {
       "id": "Kclp",
       "code_hash": "d933207b1e6adadaa9bc7c7c6979d0cd",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "emfo",
-      "code_hash": "0523c6700f18585f9b93d3552cd85f01",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "efe976d351b8c464c426dd8d28afa37c",
+      "outputs": [],
       "console": []
     }
   ]
