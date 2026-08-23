@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "920a857f99194b69a8fbb5e339c3cfc5",
+      "code_hash": "5f086de1e2814c43431c25bf7cfb845e",
       "outputs": [
         {
           "type": "data",
@@ -20,7 +20,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "649dce98a3b6102063a40d24c90705e6",
+      "code_hash": "7d26e60e5cfc87b8393a5ceee53bee18",
       "outputs": [
         {
           "type": "data",
@@ -33,47 +33,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33m                                                                        [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 test_ots.py::Test_1_of_2_OTS::test_one_of_two_OT\n\nSummary:\nTotal: 1, Passed: 1, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "MJUe",
-      "code_hash": "ed89a94f7b87700641ca6093333ffb1c",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[31mF\u001b[0m\u001b[33ms\u001b[0m\u001b[31m                                                                       [100%]\u001b[0m\n=================================== FAILURES ===================================\n\u001b[31m\u001b[1m________________________ Test_1_N_OTS.test_one_of_N_OT _________________________\u001b[0m\n\nself = <__main__.Test_1_N_OTS object at 0x1151a0690>\n\n    def test_one_of_N_OT(self):\n        cls = LPN_1_of_N_OT()\n        ot  = cls(*tags)\n        b   = choice(range(len(tags)))\n>       assert tags[b] == ot.get(b)\n                          ^^^^^^^^^\n\n\u001b[1m\u001b[31mmarimo://test_ots.py#cell_id=cell\u001b[0m:7: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\u001b[1m\u001b[31mots.py\u001b[0m:162: in get\n    receiver.accept(ot)\n\u001b[1m\u001b[31mots.py\u001b[0m:141: in accept\n    self.data = ot.get(self.b)\n                ^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <ots.LPN_1_2_OT.<locals>.__main__ object at 0x11e0b9400>, b = 0\n\n    def get(self, b):\n        data_ = []\n        for sid in range(len(self.mess0)):    # for each position in the messages\n            iters = [] ; m0 = self.mess0[sid] ; m1 = self.mess1[sid]\n            for iter in range(niters):    # for a given pair of bytes run the basic protocol niters times\n                key  = self.provider.choose(m0,m1)\n                P    = self.receiver.choose(key, b, sid, iter)\n                C    = self.provider.transfer(P , sid, iter)\n                res  = self.receiver.transfer(C)\n                iters.append(res)     # collect the byte output of each iteration\n            # from the various iterations select the most frequent byte and append it to the built message\n            data_.append(bits(iters).byte_round()[0])\n        # decode de received message and detect the number of errors corrected\n        data, errors  = self.rs.decode(data_, errors=True)\n>       assert errors >= 0, f\"unable to correct all errors\"\n               ^^^^^^^^^^^\n\u001b[1m\u001b[31mE       AssertionError: unable to correct all errors\u001b[0m\n\n\u001b[1m\u001b[31mots.py\u001b[0m:119: AssertionError\n=================================== Overview ===================================\n\nSummary:\nTotal: 2, Passed: 0, Failed: 1, Errors: 0, Skipped: 1\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mFAILED\u001b[0m test_ots.py::\u001b[1mTest_1_N_OTS::test_one_of_N_OT\u001b[0m - AssertionError: unable to correct all errors\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "vblA",
-      "code_hash": "b923175d0b36bd6629285ec5237846f2",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[33ms\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 test_ots.py::Test_N_OTS::test_one_of_N_noreduc_OT\n\nSummary:\nTotal: 2, Passed: 1, Failed: 0, Errors: 0, Skipped: 1\n",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 test_ots.py::Test_OTS::test_one_of_two_OT\n\u2713 test_ots.py::Test_OTS::test_one_of_N_OT\n\nSummary:\nTotal: 2, Passed: 2, Failed: 0, Errors: 0, Skipped: 0\n",
           "mimetype": "text/plain"
         }
       ]
