@@ -23,12 +23,9 @@ with app.setup:
 
     from config import config, config_NP
     from os import urandom
-    from random import choice
-
 
     params    = config().__dict__
     params_NP = config_NP().__dict__
-
 
 
 @app.function
@@ -37,6 +34,9 @@ def LPN_1_2_OT():
     niters = params['n_iters']
     ncc    = params['n_ecc']
     kcc    = params['k_ecc']
+
+    def sid_tweak(sid, iter):
+        return str(sid).encode() + str(iter).encode()
 
     class Provider(object):
         def __init__(self):
@@ -51,10 +51,9 @@ def LPN_1_2_OT():
 
         def transfer(self, P, sid=0, iter=0):
             msk = self.sampler.eta()
-            SID = str(sid).encode() + str(iter).encode()
-            a , u    = self.crs.AU(tweak=SID)
-            (p0, p1) = P 
-            assert p0 + p1 == u , f"public keys p0,p1 = ({p0},{p1}) unmatch u={u}"  
+            a , u    = self.crs.AU(tweak=sid_tweak(sid, iter))
+            (p0, p1) = P
+            assert p0 + p1 == u , f"public keys p0,p1 = ({p0},{p1}) unmatch u={u}"
             a_ = msk @ a  ; p0_ = msk @ p0 ; p1_ = msk @ p1
             return (a_, p0_ + self.m0 , p1_ + self.m1)
 
@@ -67,8 +66,7 @@ def LPN_1_2_OT():
         def choose(self, key, b, sid=0, iter=0):
             self.crs = bits_crs(key)
             self.b    = b
-            SID = str(sid).encode() + str(iter).encode()
-            a, u = self.crs.AU(tweak=SID)
+            a, u = self.crs.AU(tweak=sid_tweak(sid, iter))
             e    = self.sampler.noise()
             t    =  a @ self.s + e
             if self.b == 0:
@@ -122,11 +120,11 @@ def Naor_Pinkas_1_of_N_OT():             # Naor & Pinkas
     n_key = lambda : bits(urandom(ksize))
 
     def ibits(I : int):
-        ii = [int(i) for i in bin(I)[2:]] ; pad = [0]*(l - len(ii)) 
-        return ii + pad
+        ii = [int(i) for i in bin(I)[2:]] ; pad = [0]*(l - len(ii))
+        return pad + ii
 
     def F(k : bits, I : int):
-        return bits(shake_256(k.tobytes + (I).to_bytes()).digest(msize))
+        return bits(shake_256(k.tobytes + I.to_bytes(2, "big")).digest(msize))
 
     class Provider(object):
         def __init__(self, Xs):

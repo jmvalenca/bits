@@ -1,12 +1,22 @@
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "galois==0.4.11",
+#     "marimo>=0.24.0",
+#     "numpy==2.5.2",
+#     "pytest==9.1.1",
+# ]
+# ///
+
 import marimo
 
-__generated_with = "0.20.2"
+__generated_with = "0.24.0"
 app = marimo.App()
 
 with app.setup:
     import marimo as mo
     from bits import bits, bits_crs, bits_sampler
-    from ots  import one_of_two_bytes_OT as OT
+    from ots  import LPN_1_2_OT as OT
     from hashlib import shake_256
     import numpy  as np
     import galois as ga
@@ -25,7 +35,7 @@ with app.setup:
     n_tags = params_VOLE['n_tags']
     tsize  = params_VOLE['t_size']
     # tests
-    import unittest
+    import pytest
 
 
 @app.class_definition
@@ -124,34 +134,31 @@ def VOLE_dv():
 
 
 @app.class_definition
-class Test_VOLE(unittest.TestCase):
-
-#    @unittest.skip("_")
+class Test_VOLE(object):
     def test_pol(self):
         p = POL()
         x = bits(urandom(n_tags//8))
         p.c = p.e_value(x)
         r   = p.e_value(x)
-        self.assertEqual(r,zero)
-
-    #@unittest.skip("_")
+        assert r == zero
+        
     def test_funcional(self):
         vole_class = VOLE_dv()
         x = bits(urandom(n_tags//8))
         protocol   = vole_class(x)
-        self.assertEqual(x , protocol.prover.x)
+        assert x == protocol.prover.x
     #
         xx     = x.unpack()
         xtags  = protocol.prover.tags
         d  = protocol.verifier.delta
         qs = protocol.verifier.qs
-        self.assertEqual(qs, bits([t + d if b else t  for (b,t) in zip(xx,xtags)])) 
+        assert qs == bits([t + d if b else t  for (b,t) in zip(xx,xtags)])
     #
         p = POL()
         p.c = p.e_value(x)
         A1, A0 = p.a_values(x,xtags)
         B      = p.e_value(qs,d)
-        self.assertEqual(B, A1*d + A0)
+        assert B == A1*d + A0
 
 
 if __name__ == "__main__":
