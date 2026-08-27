@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "5f086de1e2814c43431c25bf7cfb845e",
+      "code_hash": "4ad7a22e5b78d5e9bb0f3e0429317f2e",
       "outputs": [
         {
           "type": "data",
@@ -20,7 +20,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "7cf33f03450cb273866c2f6aca9adb14",
+      "code_hash": "00ec9d12707855e1972abcdca24b1b85",
       "outputs": [
         {
           "type": "data",
@@ -29,14 +29,7 @@
           }
         }
       ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 test_ots.py::Test_OTS::test_one_of_two_OT\n\u2713 test_ots.py::Test_OTS::test_one_of_N_OT\n\nSummary:\nTotal: 2, Passed: 2, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
+      "console": []
     }
   ]
 }
