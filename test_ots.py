@@ -20,32 +20,33 @@ with app.setup:
     from random import choice
     import numpy as np
     from bits import bits
-    from ots import LPN_1_2_OT, GOT_all_but_one, Naor_Pinkas_1_of_N_OT
+    from ots import one_of_two_ot, GOT_all_but_one, one_of_all_ot
     from config import config, config_NP
     params    = config().__dict__
     params_NP = config_NP().__dict__
 
     # Teste data
     # LPN
-    tags = bits([bits(urandom(params['N'])) for _ in range(16)])
+    tags = bits([bits(urandom(params['N'])) for _ in range(params_NP['N'])])
 
     #Naor_Pinkas
     msgs = [bits(urandom(params_NP['msize'])) for _ in range(params_NP['N'])]
+    messages = set(msgs)
 
 
 @app.class_definition
 class Test_OTS(object):
-    
-    @pytest.mark.skip("not needed")
+
+    #@pytest.mark.skip("not needed")
     def test_one_of_two_OT(self):
-        cls = LPN_1_2_OT()
+        cls = one_of_two_ot()
         ot  = cls(*tags)
         b = choice([0,1])
         assert tags[b] == ot.get(b)
-        
-    @pytest.mark.skip("not needed")
+    
+    #@pytest.mark.skip("not needed")
     def test_one_of_N_OT(self):
-        cls = Naor_Pinkas_1_of_N_OT()
+        cls = one_of_all_ot()
         ot  = cls(msgs)
         b   = choice(range(len(msgs)))
         assert msgs[b] == ot.get(b)
@@ -55,9 +56,9 @@ class Test_OTS(object):
         cls = GOT_all_but_one()
         ot = cls(msgs)
         b   = choice(range(len(msgs)))
-        retrived = ot.get(b)
+        retrived = set(ot.get(b))
         assert msgs[b] not in retrived
-        assert all([x in msgs for x in retrived])
+        assert retrived.issubset(messages)
 
 
 if __name__ == "__main__":

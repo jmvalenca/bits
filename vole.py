@@ -16,7 +16,7 @@ app = marimo.App()
 with app.setup:
     import marimo as mo
     from bits import bits, bits_crs, bits_sampler
-    from ots  import LPN_1_2_OT as OT
+    from ots  import one_of_two_ot as OT
     from hashlib import shake_256
     import numpy  as np
     import galois as ga

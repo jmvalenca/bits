@@ -20,7 +20,7 @@ with app.setup:
     import galois
     from math import ceil, log2
     import hashlib
-
+    import pytest
     from config import config, config_NP
     from secrets import randbits, token_bytes
 
@@ -29,7 +29,7 @@ with app.setup:
 
 
 @app.function
-def LPN_1_2_OT():
+def one_of_two_ot():
     n      = params['n']
     niters = params['n_iters']
     ncc    = params['n_ecc']
@@ -111,7 +111,7 @@ def LPN_1_2_OT():
 
 
 @app.function
-def Naor_Pinkas_1_of_N_OT():             # Naor & Pinkas
+def one_of_all_ot():             # Naor & Pinkas
     ksize = params_NP['ksize']
     msize = params_NP['msize']
     N     = params_NP['N']
@@ -136,7 +136,7 @@ def Naor_Pinkas_1_of_N_OT():             # Naor & Pinkas
 
 
         def engage(self):
-            cls = LPN_1_2_OT()
+            cls = one_of_two_ot()
             return [cls(*k) for k in self.ks] 
 
         def transfer(self):
@@ -168,71 +168,69 @@ def Naor_Pinkas_1_of_N_OT():             # Naor & Pinkas
     return __main__
 
 
-@app.cell
-def GOT_all_but_one(n, rs):
-    #Generalized Oblivious Transfer by Secret Sharing
-        #Tamir Tassa
-        # Basic all-but-one OT protocol
+@app.function
+#Generalized Oblivious Transfer by Secret Sharing
+    #Tamir Tassa
+    # Basic all-but-one OT protocol
 
-    def GOT_all_but_one():
-        ksize = params_NP['ksize']
-        msize = params_NP['msize']
-        hash  = lambda x : hashlib.sha3_224(x).digest()
-        rng   = lambda key : np.random.default_rng(int.from_bytes(key))
-        Rs    = lambda rng, n : [bits(rng.integers(256,size=msize,dtype=np.uint8)) for _ in range(n)]
+def GOT_all_but_one():
 
-        class Provider(object):
-            def __init__(self, Ms : list, key : bytes):
-                n = len(Ms)
-                assert isinstance(Ms[0], bits), f"mensagens não têm tipo 'bits'"
-                Rs = rs(rng(key),n)
-                self.key    = key
-                self.Ys     = [m+r for (m,r) in zip(Ms, Rs)]
-                self.secret = token_bytes(ksize)
-            
-            def engage(self):
-                cls = LPN_1_2_OT()
-                tag = hash(self.secret)
-                return tag, [cls(y, bits(self.secret)) for y in self.Ys] 
-            
-            def transfer(self, reply):
-                assert reply == self.secret, f"GOT fails: original secret does not coinide with the reconstructed secret"
-                return self.key
+    ksize = params_NP['ksize']
+    msize = params_NP['msize']
+    hash  = lambda x : hashlib.sha3_224(x).digest()
+    rng   = lambda key : np.random.default_rng(int.from_bytes(key))
+    rs    = lambda rng, n : [bits(rng.integers(256,size=msize,dtype=np.uint8)) for _ in range(n)]
 
-        class Receiver(object):
-            def __init__(self, b, n):
-                self.n = n
-                self.b = b
-            
-            def engage(self, tag, ots):
-                self.Ys = [ots[i].get(0) for i in range(self.n) if i != self.b]
-                s = ots[self.b].get(1)
-                assert hash(s) == tag, f"receiver error: generated secret is not authentic"
-                return s.tobytes
-            
-            def reveal(self, key):
-                Rs = rs(rng(key), n)
-                del Rs[self.b]
-                return [r + y for (y,r) in zip(self.Ys,Rs)]
-    
-    
-        class __main__(object):
-            def __init__(self, msgs : list, key : bytes = None):
-                if key is None:
-                    key = token_bytes(ksize)
-                self.n = len(msgs)
-                self.provider = Provider(msgs, key)
+    class Provider(object):
+        def __init__(self, Ms : list, key : bytes):
+            n = len(Ms)
+            assert isinstance(Ms[0], bits), f"mensagens não têm tipo 'bits'"
+            Rs = rs(rng(key),n)
+            self.key    = key
+            self.Ys     = [m+r for (m,r) in zip(Ms, Rs)]
+            self.secret = token_bytes(ksize)
 
-            def get(self, b):
-                self.receiver = Receiver(b, self.n)
-                tag,ots   = self.provider.engage()
-                reply = self.receiver.engage(tag, ots)
-                key   = self.provider.transfer(reply)
-                return self.receiver.reveal(key)
+        def engage(self):
+            cls = one_of_two_ot()
+            tag = hash(self.secret)
+            return tag, [cls(y, bits(self.secret)) for y in self.Ys] 
 
-        return __main__
+        def transfer(self, reply):
+            assert reply == self.secret, f"GOT fails: original secret does not coinide with the reconstructed secret"
+            return self.key
 
-    return
+    class Receiver(object):
+        def __init__(self, b, n):
+            self.n = n
+            self.b = b
+
+        def engage(self, tag, ots):
+            self.Ys = [ots[i].get(0) for i in range(self.n) if i != self.b]
+            s = ots[self.b].get(1)
+            assert hash(s) == tag, f"receiver error: generated secret is not authentic"
+            return s.tobytes
+
+        def reveal(self, key):
+            Rs = rs(rng(key), self.n)
+            del Rs[self.b]
+            return [r + y for (y,r) in zip(self.Ys,Rs)]
+
+
+    class __main__(object):
+        def __init__(self, msgs : list, key : bytes = None):
+            if key is None:
+                key = token_bytes(ksize)
+            self.n = len(msgs)
+            self.provider = Provider(msgs, key)
+
+        def get(self, b):
+            self.receiver = Receiver(b, self.n)
+            tag,ots   = self.provider.engage()
+            reply = self.receiver.engage(tag, ots)
+            key   = self.provider.transfer(reply)
+            return self.receiver.reveal(key)
+
+    return __main__
 
 
 if __name__ == "__main__":
