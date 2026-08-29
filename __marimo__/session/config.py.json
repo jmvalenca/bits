@@ -8,31 +8,66 @@
     {
       "id": "setup",
       "code_hash": "5b477f167667b8c70996c243e05dd8fa",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "Hbol",
       "code_hash": "f7ea7e0ad8911e81dd5a9a036dd1a51d",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "MJUe",
       "code_hash": "84c6c013d4e2e7714bcb334e95974135",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "vblA",
-      "code_hash": "06261ef058cd945ed155177442867a60",
-      "outputs": [],
+      "code_hash": "4ace541206a7fa83c41a0b05a26a5b0c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "bkHC",
       "code_hash": "f1fcb8795e55cfed36d07eb293b2bd30",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     }
   ]

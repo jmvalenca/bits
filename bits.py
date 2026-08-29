@@ -59,9 +59,9 @@ class bits(np.ndarray):
             raise ValueError(f"do not knw how to make a bits object from {arg}")
         return obj
 
-    def __array_finalize__(self, obj):
-        if obj is None: return
-        self.dtype = np.uint8
+#    def __array_finalize__(self, obj):
+#        if obj is None: return
+#        self.dtype = np.uint8
 
 
     def __str__(self):
@@ -137,8 +137,12 @@ class bits(np.ndarray):
     def toInt(self):
         return int.from_bytes(self.tobytes)
 
-    def hash(self, l=24):
-        return sha3_224(self.tobytes).digest()
+    @property
+    def hash(self):
+        return hash(self.tobytes)
+
+    def __hash__(self):
+        return self.hash
 
 
     def add(self, other):

@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "bbd5186ecbee5a96b270b0f5fffb3ed5",
+      "code_hash": "e0739668da8843170381689bdca8ec1d",
       "outputs": [
         {
           "type": "data",
@@ -43,26 +43,6 @@
         }
       ],
       "console": []
-    },
-    {
-      "id": "vblA",
-      "code_hash": "6c754b004274722f792e1a34e5506bfa",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m vole.py::Test_VOLE::test_pol\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m vole.py::Test_VOLE::test_funcional\n\nSummary:\nTotal: 2, Passed: 2, Failed: 0, Errors: 0, Skipped: 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
     }
   ]
 }

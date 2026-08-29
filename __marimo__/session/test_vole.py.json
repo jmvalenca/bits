@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "9e0be55b2a0c41b18f2dc7cb9504fb7d",
+      "code_hash": "523aa99448a303b761d7503c4b45b61e",
       "outputs": [
         {
           "type": "data",
@@ -20,7 +20,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "82e99beef99684a24ece1b1256f30056",
+      "code_hash": "a16f3ee3b5a9fb310ddc5b3ff23d37d9",
       "outputs": [
         {
           "type": "data",
@@ -33,7 +33,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m                                                                      [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 test_ots.py::Test_OTS::test_one_of_two\n\u2713 test_ots.py::Test_OTS::test_one_of_all\n\u2713 test_ots.py::Test_OTS::test_all_but_one\n\nSummary:\nTotal: 3, Passed: 3, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 test_vole.py::Test_VOLE::test_pol\n\u2713 test_vole.py::Test_VOLE::test_funcional\n\nSummary:\nTotal: 2, Passed: 2, Failed: 0, Errors: 0, Skipped: 0\n",
           "mimetype": "text/plain"
         }
       ]

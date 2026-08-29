@@ -20,7 +20,7 @@ with app.setup:
     from random import choice
     import numpy as np
     from bits import bits
-    from ots import one_of_two_ot, GOT_all_but_one, one_of_all_ot
+    from ots import one_of_two_ot, all_but_one_ot, one_of_all_ot
     from config import config, config_NP
     params    = config().__dict__
     params_NP = config_NP().__dict__
@@ -38,22 +38,22 @@ with app.setup:
 class Test_OTS(object):
 
     #@pytest.mark.skip("not needed")
-    def test_one_of_two_OT(self):
+    def test_one_of_two(self):
         cls = one_of_two_ot()
         ot  = cls(*tags)
         b = choice([0,1])
         assert tags[b] == ot.get(b)
     
     #@pytest.mark.skip("not needed")
-    def test_one_of_N_OT(self):
+    def test_one_of_all(self):
         cls = one_of_all_ot()
         ot  = cls(msgs)
         b   = choice(range(len(msgs)))
         assert msgs[b] == ot.get(b)
 
     #@pytest.mark.skip("not needed")
-    def test_got_all_but_one(self):
-        cls = GOT_all_but_one()
+    def test_all_but_one(self):
+        cls = all_but_one_ot()
         ot = cls(msgs)
         b   = choice(range(len(msgs)))
         retrived = set(ot.get(b))

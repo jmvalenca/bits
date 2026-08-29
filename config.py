@@ -58,10 +58,10 @@ class config_VOLE:
 @app.class_definition
 @dataclass
 class config_NP:
-    N     : int = 32
+    N     : int = 8
     msize : int = 16
     ksize : int = 16
-    ntags : int = 32
+    ntags : int = 8
 
 
 @app.class_definition

@@ -173,7 +173,7 @@ def one_of_all_ot():             # Naor & Pinkas
     #Tamir Tassa
     # Basic all-but-one OT protocol
 
-def GOT_all_but_one():
+def all_but_one_ot():
 
     ksize = params_NP['ksize']
     msize = params_NP['msize']
