@@ -170,8 +170,7 @@ def one_of_all_ot():             # Naor & Pinkas
 
 @app.function
 #Generalized Oblivious Transfer by Secret Sharing
-    #Tamir Tassa
-    # Basic all-but-one OT protocol
+# Basic all-but-one OT protocol
 
 def all_but_one_ot():
 

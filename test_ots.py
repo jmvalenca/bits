@@ -29,7 +29,7 @@ with app.setup:
     # LPN
     tags = bits([bits(urandom(params['N'])) for _ in range(params_NP['N'])])
 
-    #Naor_Pinkas
+    #Naor_Pinkas & Secret Sharing
     msgs = [bits(urandom(params_NP['msize'])) for _ in range(params_NP['N'])]
     messages = set(msgs)
 
