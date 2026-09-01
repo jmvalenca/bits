@@ -161,6 +161,20 @@ class bits(np.ndarray):
     def __mul__(self,other):
         return self.mul(other)
 
+    def invert(self):
+        if np.ndim(self) > 0:
+            return np.bitwise_invert.__call__(self).view(bits) 
+        return np.bitwise_invert(self).view(bits)
+
+    def __invert__(self):
+        return self.invert()
+
+    def implies(self,other):
+        return (self + self.mul(other)).invert()
+
+    def __pow__(self,other):
+        return self.implies(other)
+
     def matmul(self,other):
         if np.ndim(self) == 1 and np.ndim(other) == 1:
             return (self * other).sum().view(bits)
