@@ -8,53 +8,31 @@
     {
       "id": "setup",
       "code_hash": "6316dd80445ee6f8655ac93b9c264d4a",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "Hbol",
       "code_hash": "dfafe46c16802ad93660dc4c9b3249d4",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "MJUe",
       "code_hash": "4c0157b880f0e13f26d19cad1240b536",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "vblA",
       "code_hash": "029e2dd72d0715b9c975b9b1d562967d",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "de222e497b0bebb0a09041798be99666",
+      "outputs": [],
       "console": []
     }
   ]

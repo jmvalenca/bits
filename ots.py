@@ -232,5 +232,78 @@ def all_but_one_ot():
     return __main__
 
 
+@app.cell
+def all_but_some_ot(access_strucure):
+    #Generalized Oblivious Transfer by Secret Sharing
+    # all_but_some_ot
+    # some = some set defined by enumeration
+    # an extention of the all_but_one_ot protocol
+
+    def all_but_some_ot(access_structure : np.ndarray):
+        (k,n) = access_strucure.shape
+        if not access_structure.type == np.uint8:
+            access_structure = access_structure.astype(np.uint8)
+
+        ksize = params_NP['ksize']
+        msize = params_NP['msize']
+        hash  = lambda x : hashlib.sha3_224(x).digest()
+        rng   = lambda key : np.random.default_rng(int.from_bytes(key))
+        rs    = lambda rng : [bits(rng.integers(256,size=msize,dtype=np.uint8)) for _ in range(n)]
+
+        class Provider(object):
+            def __init__(self, Ms : list, key : bytes):
+                assert n == len(Ms)
+                assert isinstance(Ms[0], bits), f"mensagens não têm tipo 'bits'"
+                Rs = rs(rng(key))
+                self.key    = key
+                self.Ys     = [m+r for (m,r) in zip(Ms, Rs)]
+                self.secret = token_bytes(ksize)
+            
+
+            def engage(self):
+                cls = one_of_two_ot()
+                tag = hash(self.secret)
+                return tag, [cls(y, bits(self.secret)) for y in self.Ys] 
+
+            def transfer(self, reply):
+                assert reply == self.secret, f"GOT fails: original secret does not coinide with the reconstructed secret"
+                return self.key
+
+        class Receiver(object):
+            def __init__(self, b, n):
+                self.n = n
+                self.b = b
+
+            def engage(self, tag, ots):
+                self.Ys = [ots[i].get(0) for i in range(self.n) if i != self.b]
+                s = ots[self.b].get(1)
+                assert hash(s) == tag, f"receiver error: generated secret is not authentic"
+                return s.tobytes
+
+            def reveal(self, key):
+                Rs = rs(rng(key), self.n)
+                del Rs[self.b]
+                return [r + y for (y,r) in zip(self.Ys,Rs)]
+
+
+        class __main__(object):
+            def __init__(self, msgs : list, key : bytes = None):
+                if key is None:
+                    key = token_bytes(ksize)
+                self.n = len(msgs)
+                self.provider = Provider(msgs, key)
+
+            def get(self, b):
+                self.receiver = Receiver(b, self.n)
+                tag,ots   = self.provider.engage()
+                reply = self.receiver.engage(tag, ots)
+                key   = self.provider.transfer(reply)
+                return self.receiver.reveal(key)
+
+        return __main__
+
+    return
+
+
 if __name__ == "__main__":
     app.run()
