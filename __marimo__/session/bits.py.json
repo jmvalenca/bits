@@ -1,7 +1,7 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.24.2",
+    "marimo_version": "0.24.0",
     "script_metadata_hash": "e225e5e882a4ca314c84b3752b3f06ad"
   },
   "cells": [
@@ -13,7 +13,7 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "847ef2a10c04a64ce7b6ac185f377229",
+      "code_hash": "93b9498401f5a0c5ace0e0f8b362f85e",
       "outputs": [],
       "console": []
     },

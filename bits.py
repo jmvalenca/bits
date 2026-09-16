@@ -146,24 +146,18 @@ class bits(np.ndarray):
 
 
     def add(self, other):
-        if np.ndim(self) > 0:
-            return np.bitwise_xor.__call__(self,other).view(bits)
-        return np.bitwise_xor(self,other).view(bits)
+        return np.bitwise_xor(self, other).view(bits)
 
     def __add__(self,other):
         return self.add(other)
 
     def mul(self, other):
-        if np.ndim(self) > 0:
-            return np.bitwise_and.__call__(self,other).view(bits)
         return np.bitwise_and(self, other).view(bits)
 
     def __mul__(self,other):
         return self.mul(other)
 
     def invert(self):
-        if np.ndim(self) > 0:
-            return np.bitwise_invert.__call__(self).view(bits) 
         return np.bitwise_invert(self).view(bits)
 
     def __invert__(self):
