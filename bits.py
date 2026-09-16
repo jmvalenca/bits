@@ -251,5 +251,58 @@ class bits_crs(object):
         return A,U
 
 
+@app.class_definition
+class boolpol(object):
+    def __init__(self, n : int, spectrum : set[bits] = None):
+        self.n = n
+        self.spectrum : set[bits] = set(spectrum) if spectrum is not None else set()
+        self.support : set[bits] = set()
+
+    def __repr__(self):
+        return f"boolpol(n={self.n}, spectrum={self.spectrum!r})"
+
+    def __eq__(self, other):
+        if not isinstance(other, boolpol):
+            return NotImplemented
+        return self.spectrum == other.spectrum
+
+    def eval(self, x : bits) -> bits:
+        if not isinstance(x, bits):
+            x = bits(x)
+        value = 0
+        for e in self.spectrum:
+            if int(e.mul(x.invert()).bit_count()) == 0:
+                value ^= 1
+        return bits(np.array(value, dtype=np.uint8))
+
+    def sat(self):
+        self.support = set()
+        self._split(0, bits(np.zeros(self.n, dtype=np.uint8)), set(self.spectrum))
+        return self.support
+
+    def _split(self, i, assignment, active):
+        if not active:
+            return
+        if i == self.n:
+            self.support.add(assignment)
+            return
+        for value in (0, 1):
+            next_assignment = assignment.lift().copy()
+            next_assignment[i] = value
+            next_active = set()
+            for e in active:
+                ev = e.lift()
+                if ev[i] and not value:
+                    continue
+                restricted = ev.copy()
+                restricted[i] = 0
+                key = bits(restricted)
+                if key in next_active:
+                    next_active.remove(key)
+                else:
+                    next_active.add(key)
+            self._split(i + 1, bits(next_assignment), next_active)
+
+
 if __name__ == "__main__":
     app.run()
